@@ -77,6 +77,7 @@
               <li><a href="manage.asp?act=nav">菜单管理</a></li>
               <li class="nav-header">权限管理</li>
               <li><a href="manage.asp?act=user">用户管理</a></li>
+              <li><a href="manage.asp?act=test">Test</a></li>
             </ul>
           </div>
           <div class="well sidebar-nav">
@@ -106,6 +107,8 @@
                   <!--#include file="template/news.asp" -->
               <%case "article":%>
                   <!--#include file="template/article.asp" -->
+              <%case "test":%>
+                  <!--#include file="template/test.asp" -->
               <%
                 case else:
               %>
@@ -151,6 +154,10 @@
       case "article":
     %>
     <script charset="utf-8" src="content/js/manager.article.js"></script>
+    <%
+      case "test":
+    %>
+    <script charset="utf-8" src="content/js/manager.test.js"></script>
     <%
       end select
     %>
