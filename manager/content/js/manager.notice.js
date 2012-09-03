@@ -126,13 +126,15 @@
 
                     scope.fn.loadData();
 
-                    scope.editor = K.create('#notice-modal #content', {
-                        cssPath : 'content/kindeditor/plugins/code/prettify.css',
-                        uploadJson : 'content/kindeditor/asp/upload_json.asp',
-                        fileManagerJson : 'content/kindeditor/asp/file_manager_json.asp',
-                        allowFileManager : true
+                    K.ready(function(K) {
+                        scope.editor = K.create('#notice-modal #content', {
+                            cssPath : 'content/kindeditor/plugins/code/prettify.css',
+                            uploadJson : 'content/kindeditor/asp/upload_json.asp',
+                            fileManagerJson : 'content/kindeditor/asp/file_manager_json.asp',
+                            allowFileManager : true
+                        });
+                        prettyPrint();
                     });
-                    prettyPrint();
 
                     $('.modal a.closem').click(function() {
                         $(this).closest('.modal').modal('hide');

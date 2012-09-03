@@ -144,14 +144,15 @@
                 scope.init = function() {
 
                     scope.fn.loadData();
-
-                    scope.editor = K.create('#news-modal #content', {
-                        cssPath : 'content/kindeditor/plugins/code/prettify.css',
-                        uploadJson : 'content/kindeditor/asp/upload_json.asp',
-                        fileManagerJson : 'content/kindeditor/asp/file_manager_json.asp',
-                        allowFileManager : true
+                    K.ready(function(K) {
+                        scope.editor = K.create('#news-modal #content', {
+                            cssPath : 'content/kindeditor/plugins/code/prettify.css',
+                            uploadJson : 'content/kindeditor/asp/upload_json.asp',
+                            fileManagerJson : 'content/kindeditor/asp/file_manager_json.asp',
+                            allowFileManager : true
+                        });
+                        prettyPrint();
                     });
-                    prettyPrint();
 
                     $('.modal').find('#set_img').click(function(e) {
                         var $modal = $(this).closest('.modal');
