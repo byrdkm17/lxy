@@ -5,7 +5,7 @@
 * @author Roddy <luolonghao@gmail.com>
 * @website http://www.kindsoft.net/
 * @licence http://www.kindsoft.net/license.php
-* @version 4.1 (2012-05-12)
+* @version 4.1.2 (2012-07-21)
 *******************************************************************************/
 (function (window, undefined) {
 	if (window.KindEditor) {
@@ -17,7 +17,7 @@ if (!window.console) {
 if (!console.log) {
 	console.log = function () {};
 }
-var _VERSION = '4.1 (2012-05-12)',
+var _VERSION = '4.1.2 (2012-07-21)',
 	_ua = navigator.userAgent.toLowerCase(),
 	_IE = _ua.indexOf('msie') > -1 && _ua.indexOf('opera') == -1,
 	_GECKO = _ua.indexOf('gecko') > -1 && _ua.indexOf('khtml') == -1,
@@ -226,7 +226,7 @@ K.basePath = _getBasePath();
 K.options = {
 	designMode : true,
 	fullscreenMode : false,
-	filterMode : false,
+	filterMode : true,
 	wellFormatMode : true,
 	shadowMode : true,
 	loadStyleMode : true,
@@ -243,7 +243,7 @@ K.options = {
 	pasteType : 2,
 	dialogAlignType : 'page',
 	useContextmenu : true,
-	fullscreenShortcut : true,
+	fullscreenShortcut : false,
 	bodyClass : 'ke-content',
 	indentChar : '\t',
 	cssPath : '',
@@ -636,7 +636,9 @@ function _formatCss(css) {
 }
 function _formatUrl(url, mode, host, pathname) {
 	mode = _undef(mode, '').toLowerCase();
-	url = url.replace(/([^:])\/\//g, '$1/');
+	if (url.substr(0, 5) != 'data:') {
+		url = url.replace(/([^:])\/\//g, '$1/');
+	}
 	if (_inArray(mode, ['absolute', 'relative', 'domain']) < 0) {
 		return url;
 	}
@@ -712,6 +714,7 @@ function _formatHtml(html, htmlTags, urlType, wellFormatted, indentChar) {
 	html = html.replace(/<(?:br|br\s[^>]*)\s*\/?>\s*<\/p>/ig, '</p>');
 	html = html.replace(/(<(?:p|p\s[^>]*)>)\s*(<\/p>)/ig, '$1<br />$2');
 	html = html.replace(/\u200B/g, '');
+	html = html.replace(/\u00A9/g, '&copy;');
 	var htmlTagMap = {};
 	if (htmlTags) {
 		_each(htmlTags, function(key, val) {
@@ -1279,7 +1282,6 @@ _extend(KNode, {
 		self.name = _getNodeName(self[0]);
 		self.type = self.length > 0 ? self[0].nodeType : null;
 		self.win = _getWin(self[0]);
-		self._data = {};
 	},
 	each : function(fn) {
 		var self = this;
@@ -1473,10 +1475,16 @@ _extend(KNode, {
 	},
 	data : function(key, val) {
 		var self = this;
+		key = 'kindeditor_data_' + key;
 		if (val === undefined) {
-			return self._data[key];
+			if (self.length < 1) {
+				return null;
+			}
+			return self[0][key];
 		}
-		self._data[key] = val;
+		this.each(function() {
+			this[key] = val;
+		});
 		return self;
 	},
 	pos : function() {
@@ -1577,14 +1585,25 @@ _extend(KNode, {
 			delete self[i];
 		});
 		self.length = 0;
-		self._data = {};
 		return self;
 	},
 	show : function(val) {
-		return this.css('display', val === undefined ? 'block' : val);
+		var self = this;
+		if (val === undefined) {
+			val = self._originDisplay || '';
+		}
+		if (self.css('display') != 'none') {
+			return self;
+		}
+		return self.css('display', val);
 	},
 	hide : function() {
-		return this.css('display', 'none');
+		var self = this;
+		if (self.length < 1) {
+			return self;
+		}
+		self._originDisplay = self[0].style.display;
+		return self.css('display', 'none');
 	},
 	outer : function() {
 		var self = this;
@@ -1737,6 +1756,9 @@ K = function(expr, root) {
 	if (expr && expr.constructor === KNode) {
 		return expr;
 	}
+	if (expr.toArray) {
+		expr = expr.toArray();
+	}
 	if (_isArray(expr)) {
 		return newNode(expr);
 	}
@@ -1745,6 +1767,7 @@ K = function(expr, root) {
 _each(_K, function(key, val) {
 	K[key] = val;
 });
+K.NodeClass = KNode;
 window.KindEditor = K;
 var _START_TO_START = 0,
 	_START_TO_END = 1,
@@ -2451,6 +2474,7 @@ function _range(mixed) {
 	}
 	return new KRange(mixed);
 }
+K.RangeClass = KRange;
 K.range = _range;
 K.START_TO_START = _START_TO_START;
 K.START_TO_END = _START_TO_END;
@@ -3094,9 +3118,6 @@ _extend(KCmd, {
 		if (val === '') {
 			return self;
 		}
-		if (_inPreElement(K(range.startContainer))) {
-			return self;
-		}
 		function pasteHtml(range, val) {
 			val = '<img id="__kindeditor_temp_tag__" width="0" height="0" style="display:none;" />' + val;
 			var rng = range.get();
@@ -3248,6 +3269,7 @@ function _cmd(mixed) {
 	}
 	return new KCmd(mixed);
 }
+K.CmdClass = KCmd;
 K.cmd = _cmd;
 function _drag(options) {
 	var moveEl = options.moveEl,
@@ -3255,9 +3277,7 @@ function _drag(options) {
 		clickEl = options.clickEl || moveEl,
 		beforeDrag = options.beforeDrag,
 		iframeFix = options.iframeFix === undefined ? true : options.iframeFix;
-	var docs = [document],
-		poss = [{ x : 0, y : 0}],
-		listeners = [];
+	var docs = [document];
 	if (iframeFix) {
 		K('iframe').each(function() {
 			var doc;
@@ -3268,57 +3288,47 @@ function _drag(options) {
 				doc = null;
 			}
 			if (doc) {
+				var pos = K(this).pos();
+				K(doc).data('pos-x', pos.x);
+				K(doc).data('pos-y', pos.y);
 				docs.push(doc);
-				poss.push(K(this).pos());
 			}
 		});
 	}
 	clickEl.mousedown(function(e) {
+		e.stopPropagation();
 		var self = clickEl.get(),
 			x = _removeUnit(moveEl.css('left')),
 			y = _removeUnit(moveEl.css('top')),
 			width = moveEl.width(),
 			height = moveEl.height(),
 			pageX = e.pageX,
-			pageY = e.pageY,
-			dragging = true;
+			pageY = e.pageY;
 		if (beforeDrag) {
 			beforeDrag();
 		}
-		_each(docs, function(i, doc) {
-			function moveListener(e) {
-				if (dragging) {
-					var diffX = _round(poss[i].x + e.pageX - pageX),
-						diffY = _round(poss[i].y + e.pageY - pageY);
-					moveFn.call(clickEl, x, y, width, height, diffX, diffY);
-				}
-				e.stop();
+		function moveListener(e) {
+			e.preventDefault();
+			var kdoc = K(_getDoc(e.target));
+			var diffX = _round((kdoc.data('pos-x') || 0) + e.pageX - pageX);
+			var diffY = _round((kdoc.data('pos-y') || 0) + e.pageY - pageY);
+			moveFn.call(clickEl, x, y, width, height, diffX, diffY);
+		}
+		function selectListener(e) {
+			e.preventDefault();
+		}
+		function upListener(e) {
+			e.preventDefault();
+			K(docs).unbind('mousemove', moveListener)
+				.unbind('mouseup', upListener)
+				.unbind('selectstart', selectListener);
+			if (self.releaseCapture) {
+				self.releaseCapture();
 			}
-			function selectListener(e) {
-				e.stop();
-			}
-			function upListener(e) {
-				dragging = false;
-				if (self.releaseCapture) {
-					self.releaseCapture();
-				}
-				_each(listeners, function() {
-					K(this.doc).unbind('mousemove', this.move)
-						.unbind('mouseup', this.up)
-						.unbind('selectstart', this.select);
-				});
-				e.stop();
-			}
-			K(doc).mousemove(moveListener)
-				.mouseup(upListener)
-				.bind('selectstart', selectListener);
-			listeners.push({
-				doc : doc,
-				move : moveListener,
-				up : upListener,
-				select : selectListener
-			});
-		});
+		}
+		K(docs).mousemove(moveListener)
+			.mouseup(upListener)
+			.bind('selectstart', selectListener);
 		if (self.setCapture) {
 			self.setCapture();
 		}
@@ -3433,7 +3443,7 @@ _extend(KWidget, {
 	},
 	remove : function() {
 		var self = this;
-		if (_IE && _V < 7) {
+		if (_IE && _V < 7 || _QUIRKS) {
 			K(self.win).unbind('scroll');
 		}
 		self.div.remove();
@@ -3483,7 +3493,7 @@ if ((html = document.getElementsByTagName('html'))) {
 function _getInitHtml(themesPath, bodyClass, cssPath, cssData) {
 	var arr = [
 		(_direction === '' ? '<html>' : '<html dir="' + _direction + '">'),
-		'<head><meta charset="utf-8" /><title>KindEditor</title>',
+		'<head><meta charset="utf-8" /><title></title>',
 		'<style>',
 		'html {margin:0;padding:0;}',
 		'body {margin:0;padding:5px;}',
@@ -3772,6 +3782,7 @@ _extend(KEdit, KWidget, {
 function _edit(options) {
 	return new KEdit(options);
 }
+K.EditClass = KEdit;
 K.edit = _edit;
 K.iframeDoc = _iframeDoc;
 function _selectToolbar(name, fn) {
@@ -3900,6 +3911,7 @@ _extend(KToolbar, KWidget, {
 function _toolbar(options) {
 	return new KToolbar(options);
 }
+K.ToolbarClass = KToolbar;
 K.toolbar = _toolbar;
 function KMenu(options) {
 	this.init(options);
@@ -3980,6 +3992,7 @@ _extend(KMenu, KWidget, {
 function _menu(options) {
 	return new KMenu(options);
 }
+K.MenuClass = KMenu;
 K.menu = _menu;
 function KColorPicker(options) {
 	this.init(options);
@@ -4054,6 +4067,7 @@ _extend(KColorPicker, KWidget, {
 function _colorpicker(options) {
 	return new KColorPicker(options);
 }
+K.ColorPickerClass = KColorPicker;
 K.colorpicker = _colorpicker;
 function KUploadButton(options) {
 	this.init(options);
@@ -4065,16 +4079,22 @@ _extend(KUploadButton, {
 			fieldName = options.fieldName || 'file',
 			url = options.url || '',
 			title = button.val(),
+			extraParams = options.extraParams || {},
 			cls = button[0].className || '',
 			target = options.target || 'kindeditor_upload_iframe_' + new Date().getTime();
 		options.afterError = options.afterError || function(str) {
 			alert(str);
 		};
+		var hiddenElements = [];
+		for(var k in extraParams){
+			hiddenElements.push('<input type="hidden" name="' + k + '" value="' + extraParams[k] + '" />');
+		}
 		var html = [
 			'<div class="ke-inline-block ' + cls + '">',
 			(options.target ? '' : '<iframe name="' + target + '" style="display:none;"></iframe>'),
 			(options.form ? '<div class="ke-upload-area">' : '<form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data" target="' + target + '" action="' + url + '">'),
 			'<span class="ke-button-common">',
+			hiddenElements.join(''),
 			'<input type="button" class="ke-button-common ke-button" value="' + title + '" />',
 			'</span>',
 			'<input type="file" class="ke-upload-file" name="' + fieldName + '" tabindex="-1" />',
@@ -4136,6 +4156,7 @@ _extend(KUploadButton, {
 function _uploadbutton(options) {
 	return new KUploadButton(options);
 }
+K.UploadButtonClass = KUploadButton;
 K.uploadbutton = _uploadbutton;
 function _createButton(arg) {
 	arg = arg || {};
@@ -4269,6 +4290,7 @@ _extend(KDialog, KWidget, {
 function _dialog(options) {
 	return new KDialog(options);
 }
+K.DialogClass = KDialog;
 K.dialog = _dialog;
 function _tabs(options) {
 	var self = _widget(options),
@@ -4560,6 +4582,9 @@ function _bindNewlineEvent() {
 			return;
 		}
 		if (newlineTag == 'br') {
+			return;
+		}
+		if (_GECKO) {
 			return;
 		}
 		self.cmd.selection();
@@ -5111,12 +5136,12 @@ KEditor.prototype = {
 		}
 		return self;
 	},
-	insertHtml : function(val) {
+	insertHtml : function(val, quickMode) {
 		if (!this.isCreated) {
 			return this;
 		}
 		val = this.beforeSetHtml(val);
-		this.exec('inserthtml', val);
+		this.exec('inserthtml', val, quickMode);
 		return this;
 	},
 	appendHtml : function(val) {
@@ -5308,7 +5333,7 @@ function _create(expr, options) {
 		return editor.create();
 	}
 	var knode = K(expr);
-	if (!knode) {
+	if (!knode || knode.length === 0) {
 		return;
 	}
 	if (knode.length > 1) {
@@ -5328,6 +5353,27 @@ function _create(expr, options) {
 	});
 	return editor;
 }
+function _eachEditor(expr, fn) {
+	K(expr).each(function(i, el) {
+		K.each(_instances, function(j, editor) {
+			if (editor && editor.srcElement[0] == el) {
+				fn.call(editor, j, editor);
+				return false;
+			}
+		});
+	});
+}
+K.remove = function(expr) {
+	_eachEditor(expr, function(i) {
+		this.remove();
+		_instances.splice(i, 1);
+	});
+};
+K.sync = function(expr) {
+	_eachEditor(expr, function() {
+		this.sync();
+	});
+};
 if (_IE && _V < 7) {
 	_nativeCommand(document, 'BackgroundImageCache', true);
 }
@@ -5618,6 +5664,12 @@ _plugin('core', function(K) {
 					K(this).after('<br />').remove(true);
 				});
 				K('span.Apple-style-span', div).remove(true);
+				K('span.Apple-tab-span', div).remove(true);
+				K('span[style]', div).each(function() {
+					if (K(this).css('white-space') == 'nowrap') {
+						K(this).remove(true);
+					}
+				});
 				K('meta', div).remove();
 			}
 			var html = div[0].innerHTML;
