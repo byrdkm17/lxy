@@ -1,0 +1,14 @@
+<%=htmlData%>
+<form name="example" method="post" action="demo.asp">
+	<legend>新闻发布</legend>
+	<label>新闻标题
+		<input type="text" placeholder="Type something…">
+	</label>
+
+	<label class="checkbox">
+    	<input type="checkbox"> 设置为图片新闻
+  	</label>
+	<textarea name="content1" style="width:700px;height:200px;visibility:hidden;"><%=htmlspecialchars(htmlData)%></textarea>
+	<br />
+	<input type="submit"  class="btn" name="button" value="提交内容" /> (提交快捷键: Ctrl + Enter)
+</form>

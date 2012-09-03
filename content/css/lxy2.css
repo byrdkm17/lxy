@@ -1,0 +1,26 @@
+.center {
+    text-align: center !important;
+}
+
+.k-table td > input[type="text"] {
+    margin: 0;
+    height: 12px;
+    line-height: 12px;
+    text-align: center;
+}
+
+.breadcrumb .divider {
+    padding: 0 10px;
+}
+
+.breadcrumb .icon {
+    margin: 0 4px;
+}
+
+.modal-body {
+    max-height: 600px;
+}
+
+.modal.fade.in {
+    top: 35%;
+}

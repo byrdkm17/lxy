@@ -1,0 +1,44 @@
+﻿/*!
+ * author :nianhz;
+ * date:2012/8/22;
+ *background:#EAEAEA;
+
+ *change  .nav > li > a {  padding: 10px 12px 10px;}
+ *change body font-family: Arial,"Microsoft YaHei","宋体";
+
+*/
+.main{
+	margin-right: auto;
+	margin-left: auto;
+	*zoom: 1;
+}
+.main .container:first-child{
+	background: url("../../content/img/all_body_bg.png") repeat-y;
+}
+.search{
+	padding:50px 0px 0px 0px;
+}
+.main .navbar{
+	width: 920px;
+	margin-left: 10px;
+}
+.main .navbar ul li a{
+	color: #fff;
+}
+.main .container .row-fluid{
+	width: 940px;
+}
+
+.main .container .row-fluid [class*="span"]{
+	margin-left: 8px
+}
+.main .footer{
+	text-align: center;
+	line-height: 20px;
+	margin:0 auto;
+	width: 940px;
+	height: 100px;
+	padding-top: 30px;
+	background:#fff url("../../content/img/body_foot_bg.png") no-repeat;
+
+}
