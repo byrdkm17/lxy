@@ -137,9 +137,8 @@
                         scope.editor.html(content || '');
                         $modal.find('#id').val(data.id || null);
 
-                        $modal.modal();
-                        $('.modal-backdrop').off('click');
-
+                        $modal.show();
+                        $('<div class="modal-backdrop" />').appendTo(d.body);
 
                     },
 
@@ -164,12 +163,19 @@
                             });
                             $modal.find('#nav_id').val(nav_id);
                         }, this, true);
+                    },
+
+                    close: function() {
+                        $('.modal').hide(0, function() {
+                            $('.modal-backdrop').remove();
+                            $('.breadcrumb').find('a.refresh').click();
+                        });
                     }
 
                 };
 
                 scope.init = function() {
-
+                    
                     K.ready(function(K) {
                         scope.editor = K.create('#article-modal #content', {
                             cssPath : 'content/kindeditor/plugins/code/prettify.css',
@@ -197,9 +203,9 @@
                     });
 
                     // Modal Close
-                    $('.modal a.closem').click(function(e) {
+                    $('.closem').click(function(e) {
                         e.preventDefault();
-                        $(this).closest('.modal').modal('hide');
+                        scope.fn.close();
                     });
 
                     // Modal Save
@@ -225,16 +231,8 @@
                         params.content = scope.editor.html();
 
                         if(pass) {
-                            scope.fn.postData(false, params, function() {
-                                $modal.modal('hide');
-                            }, this);
-                            
+                            scope.fn.postData(false, params, scope.fn.close, this);                            
                         }
-                    });
-
-                    // Modal Hide
-                    $('.modal').on('hidden', function() {
-                        $('.breadcrumb').find('a.refresh').click();
                     });
 
                     $('.breadcrumb').find('a.refresh').click(function(e) {

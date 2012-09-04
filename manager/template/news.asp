@@ -34,7 +34,7 @@
 
     <div class="modal hide" id="news-modal" style="width: 80%; margin: -300px 0 0 -40%;">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <button type="button" class="close closem" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>学院要闻</h3>
         </div>
         <div class="modal-body" style="max-height: 600px">

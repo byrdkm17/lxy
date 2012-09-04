@@ -39,9 +39,9 @@
         <tbody></tbody>
     </table>
 
-    <div class="modal hide" id="article-modal" style="width: 80%; margin: -320px 0 0 -40%;">
+    <div class="modal hide" id="article-modal" style="width: 80%; margin: -290px 0 0 -40%;">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <button type="button" class="close closem" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>文章编辑</h3>
         </div>
         <div class="modal-body" style="max-height: 600px">
@@ -76,9 +76,9 @@
                         <input type="text" name="img_url" id="img_url" class="span12 submitValue">
                     </div>
                 </div>
-                <textarea name="content" id="content" style="width:100%;height:300px;visibility:hidden;"></textarea>
+                <textarea name="content" id="content" style="width:100%;height:200px;visibility:hidden;"></textarea>
                 <input type="hidden" name="id" id="id" class="submitValue">
-            </form>
+            </form>            
         </div>
         <div class="modal-footer">
             <a href="#" class="btn closem">Close</a>

@@ -294,8 +294,8 @@
                                 $modal.find('div.c-g-link').hide();
                             }
 
-                            $modal.modal();
-                            $('.modal-backdrop').off('click');
+                            $modal.show();
+                            $('<div class="modal-backdrop" />').appendTo(d.body);
                         }
 
                         if(type === 'sub') {
@@ -317,8 +317,8 @@
                                 $modal.find('div.c-g-link').hide();
                             }
 
-                            $modal.modal();
-                            $('.modal-backdrop').off('click');
+                            $modal.show();
+                            $('<div class="modal-backdrop" />').appendTo(d.body);
                         }
 
                         if(type === 'article') {
@@ -336,8 +336,8 @@
                             scope.editor.html(content || '');
                             $modal.find('#id').val(data.id || null);
 
-                            $modal.modal();
-                            $('.modal-backdrop').off('click');
+                            $modal.show();
+                            $('<div class="modal-backdrop" />').appendTo(d.body);
                         }
 
                     },
@@ -363,6 +363,13 @@
                             });
                             $modal.find('#nav_id').val(nav_id);
                         }, this, true);
+                    },
+
+                    close: function($modal) {
+                        $modal.hide(0, function() {
+                            $('.modal-backdrop').remove();
+                            $('.breadcrumb').find('a.refresh').click();
+                        });
                     }
 
                 };
@@ -404,8 +411,8 @@
                     });
 
                     // Modal Close
-                    $('.modal a.closem').click(function() {
-                        $(this).closest('.modal').modal('hide');
+                    $('.closem').click(function() {
+                        scope.fn.close($(this).closest('.modal'));
                     });
 
                     // Modal Save
@@ -434,15 +441,10 @@
                             url = scope.path + 'do/' + type + '.asp';
 
                             scope.fn.postData(url, params, function() {
-                                $modal.modal('hide');
+                                scope.fn.close($modal);
                             }, this);
                             
                         }
-                    });
-
-                    // Modal Hide
-                    $('.modal').on('hidden', function() {
-                        $('.breadcrumb').find('a.refresh').click();
                     });
 
                     $('.breadcrumb').find('a.refresh').click(function(e) {

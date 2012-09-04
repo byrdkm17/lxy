@@ -135,9 +135,16 @@
                         scope.editor.html(content || '');
                         $modal.find('#id').val(data.id || null);
 
-                        $modal.modal();
-                        $('.modal-backdrop').off('click');
+                        $modal.show();
+                        $('<div class="modal-backdrop" />').appendTo(d.body);
 
+                    },
+
+                    close: function() {
+                        $('.modal').hide(0, function() {
+                            $('.modal-backdrop').remove();
+                            $('.breadcrumb').find('a.refresh').click();
+                        });
                     }
                 }
 
@@ -164,8 +171,9 @@
                         }
                     });
 
-                    $('.modal a.closem').click(function() {
-                        $(this).closest('.modal').modal('hide');
+                    $('.closem').click(function(e) {
+                        e.preventDefault();
+                        scope.fn.close();
                     });
 
                     $('.modal a.savem').click(function() {
@@ -184,9 +192,7 @@
                         });
                         if(pass) {
                             params.content = scope.editor.html();
-                            scope.fn.postData(false, params, function() {
-                                $modal.modal('hide');
-                            }, this);                            
+                            scope.fn.postData(false, params, scope.fn.close, this);                            
                         }
                     });
 

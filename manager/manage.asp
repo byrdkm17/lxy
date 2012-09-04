@@ -93,26 +93,14 @@
               dim action, viewer
               action = request("act")
               select case action:
-                case "notice":
-              %>
-                  <!--#include file="template/notice.asp" -->
-              <%case "science":%>
-                  <!--#include file="template/science.asp" -->
-              <%case "nav":%>
-                  <!--#include file="template/nav.asp" -->
-              <%case "user":%>
-                  <!--#include file="template/user.asp" -->
-              <%case "news":%>
-                  <!--#include file="template/news.asp" -->
-              <%case "article":%>
-                  <!--#include file="template/article.asp" -->
-              <%
-                case else:
-              %>
-                <!--#include file="template/system.asp" -->
-              <%
-              end select
-             %>
+                case "notice": %> <!--#include file="template/notice.asp" -->
+              <% case "science": %> <!--#include file="template/science.asp" -->
+              <% case "nav": %> <!--#include file="template/nav.asp" -->
+              <% case "user": %> <!--#include file="template/user.asp" -->
+              <% case "news": %> <!--#include file="template/news.asp" -->
+              <% case "article": %> <!--#include file="template/article.asp" -->
+              <% case else: %> <!--#include file="template/system.asp" -->
+              <% end select %>
         </div><!--/span-->
       </div><!--/row-->
 
