@@ -41,10 +41,10 @@
           <li><a href="subpage.asp?navid=3">院系设置</a></li>
           <li><a href="subpage.asp?navid=4">重点实验室</a></li>
           <li><a href="subpage.asp?navid=5">质量工程</a></li>
-          <li><a href="subpage.asp?navid=6">导师简介</a></li>
+          <li><a href="subpage.asp?navid=6">师资队伍</a></li>
           <li><a href="subpage.asp?navid=7">人才培养</a></li>
-          <li><a href="subpage.asp?navid=8">师资队伍</a></li>
-          <li><a href="subpage.asp?navid=9">招生就业</a></li>
-          <li><a href="subpage.asp?navid=10">资源下载</a></li>
+          <li><a href="http://202.203.132.40/zyxy/daoshi.asp">导师简介</a></li>
+          <li><a href="subpage.asp?navid=8">招生就业</a></li>
+          <li><a href="subpage.asp?navid=9">资源下载</a></li>
         </ul>
     </div>
