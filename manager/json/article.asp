@@ -34,9 +34,9 @@
 
     else
         if title = "" then
-            set rs = conn.execute("select a.*, m.menu_name from article a left join menu m on m.id = a.menu_id")
+            set rs = conn.execute("select a.*, m.menu_name from article a left join menu m on m.id = a.menu_id where a.menu_id <> 20000 order by a.create_time desc" )
         else
-            set rs = conn.execute("select a.*, m.menu_name from article a left join menu m on m.id = a.menu_id where a.title like '%" & title & "%'")
+            set rs = conn.execute("select a.*, m.menu_name from article a left join menu m on m.id = a.menu_id where a.title like '%" & title & "%' and a.menu_id <> 20000 order by a.create_time desc" )
         end if
         response.write json(rs)
 
