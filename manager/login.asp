@@ -1,35 +1,57 @@
+﻿<%@ CODEPAGE=65001 %>
 <%
-
-dim page, title
-page = "login"
-title = "登录"
-
+Response.CodePage=65001
+Response.Charset="UTF-8"
 %>
 
-<!--#include file="template/header.asp" -->
-<div class="container" style="margin-top: 50px">
-    <form class="well form-horizontal" method="post" action="do.asp?action=login">
-        <fieldset>
-            <legend>Login</legend>
-            <div class="control-group">
-                <label class="control-label" for="username">用户名</label>
-                <div class="controls">
-                    <input type="text" class="input-xlarge" name="username" tabindex="1" id="username" autofocus value="<% 
-                        response.write session("error_username")
-                        session.contents.remove("error_username")
-                    %>">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="passwd">密码</label>
-                <div class="controls">
-                    <input type="password" class="input-xlarge" name="passwd" tabindex="2" id="passwd">
-                </div>
-            </div>
-            <div class="form-actions">
-                <button type="button" class="btn btn-primary" id="doLogin">登录</button>
-            </div>
-        </fieldset>
-    </form>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link rel="shortcut icon" type="png" href="../content/img/favicon.png">
+    <link href="../content/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class ="container hero-unit" style="width:400px;padding:80px">
+    <form class="form-horizontal" method="post" action="action.asp?act=login">
+
+    <div class="control-group">
+      <label class="control-label" for="inputUsername">Username:</label>
+      <div class="controls">
+        <input type="text" name="username" id="inputUsername" placeholder="Username">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">Password:</label>
+      <div class="controls">
+        <input type="password" name="password" id="inputPassword" placeholder="Password">
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn btn-primary btn-large">Sign in</button>
+      </div>
+    </div>
+  </form>
 </div>
-<!--#include file="template/footer.asp" -->
+</body>
+</html>

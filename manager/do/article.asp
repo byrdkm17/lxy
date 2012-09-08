@@ -1,7 +1,7 @@
 <!--#include file="../conn.asp" -->
 <%
 
-    dim id, menu_id, title, content, img_url, is_del, sqlstr
+   dim id, menu_id, title, content, img_url, is_del, sqlstr
 
     id = request("id")
     menu_id = request("menu_id")
@@ -35,6 +35,5 @@
     conn.execute(sqlstr)
 
     conn.close
-
 
 %>
