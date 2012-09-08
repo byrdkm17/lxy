@@ -55,7 +55,7 @@ class viewArt:
     set rs = conn.execute("select top 5 id,title, menu_id from  article where menu_id=20000")
     if not (rs.eof and rs.bof) then
       do while not rs.eof
-        Response.Write("<li><a href='other.asp?type=notice&id="&rs.fields("id")&"'>"&cutstr(rs.fields("title"),10)&"</a></li>")
+        Response.Write("<li><a href='other.asp?type=notice&id="&rs.fields("id")&"'>"&cutstr(rs.fields("title"),18)&"</a></li>")
         rs.MoveNext
       loop
     else
