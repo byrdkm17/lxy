@@ -122,7 +122,7 @@ KM.addMod(function() {
                     data: {content: 1, id: $tr.data('source').id},
                     success: function(content) {
                         $.ajax(self.path + 'json/news.asp', {
-                            data: {content: 1, id: $tr.data('source').id},
+                            data: {abstract: 1, id: $tr.data('source').id},
                             success: function(abstract) {
                                 fn.showEdit(data, content, abstract);
                             }
