@@ -2,19 +2,14 @@
 <!--#include file="json.asp" -->
 <% 
 
-    dim edit, id, title, rs
+    dim edit, id, rs
 
     id = request("id")
     edit = request("edit")
-    title = request("title")
 
 
     if edit = "" then
-        if title = "" then
-            set rs = conn.execute("select * from science order by create_time desc")
-        else
-            set rs = conn.execute("select * from science where title like '%" & title & "%' order by create_time desc")
-        end if
+        set rs = conn.execute("select * from science order by create_time desc")
     else 
         set rs = conn.execute("select * from science where id = " & id)
     end if

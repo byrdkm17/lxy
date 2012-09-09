@@ -94,12 +94,23 @@ body{
 .main .container .part1 .pic_nav{
 	width:220px;
 }
+.main .container .part1 .span3{
+	margin-right: 20px;
+}
+.main .container .part1 .content{
+	margin-left:0px !important;
+}
 .main .container .part1 .span5{
+	margin-left: 15px;
 	margin-top: 5px;
 	width:360px;
 }
 .main .container .part1 .span4{
 	margin-top: 5px;
+}
+.main .container .part1 .tab-pane li {
+	line-height: 250%;
+	border-bottom: 1px dotted #CCC;
 }
 
 .main .container .content{
@@ -166,10 +177,10 @@ body{
 	font-size: 12px;
 	text-align: center;
 	width: 58px;
-	height: 60px;
+	height: 58px;
 	list-style: none;
 	float: left;
-	margin:4px;
+	margin:1px 5px 4px 5px;
 }
 .dropdown-menu .dropdown-submenu .open .dropdown-menu{
 	display:none;
@@ -202,9 +213,9 @@ body{
 }
 .nav-tabs {
 	height: 38px;
-	margin-bottom: 5px !important;
+	margin-bottom: 10px !important;
 }
 .tab-pane li{
 	padding-left: 15px;
-	background: url("../../content/img/arrow_02.gif") left 5px no-repeat;
+	background: url("../../content/img/arrow_02.gif") left 10px no-repeat;
 }

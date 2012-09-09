@@ -8,33 +8,70 @@
               <%
                 type_=request("type")
                 id =request("id")
-                if type_="notice" then
+                select case type_:
+                case "notice":
                   if id<>"" then
                     set rs=conn.execute("select * from article where id="&id)
                   else
                     set rs=conn.execute("select * from article where menu_id=20000 order by create_time")
                   end if
               %>
-                <li><a tabindex="-1" href="subpage.asp?navid=">学院通知</a></li>
+                <li><a tabindex="-1" href="other.asp?type=notice">学院通知</a></li>
               <%
-                elseif type_="news" then
+                case "news":
                   if id<>"" then
                     set rs=conn.execute("select * from news where id="&id)
                   else
                     set rs=conn.execute("select * from news order by create_time")
                   end if
                 %>
-                <li><a tabindex="-1" href="subpage.asp?navid=">学院要闻</a></li>
+                <li><a tabindex="-1" href="other.asp?type=news">学院要闻</a></li>
                 <%
-                elseif type_="science" then
+                case "science"
                   if id<>"" then
                     set rs=conn.execute("select * from science where id="&id)
                   else
                     set rs=conn.execute("select * from science order by create_time")
                   end if
-              %>
-                <li><a tabindex="-1" href="subpage.asp?navid=">科研动态</a></li>
-              <%end if%>
+                %>
+                <li><a tabindex="-1" href="other.asp?type=science">科研动态</a></li>
+                <%
+                case "swfunotice":
+                  if id<>"" then
+                    set rs=conn.execute("select * from science where id="&id)
+                  else
+                    set rs=conn.execute("select * from science order by create_time")
+                  end if
+                %>
+                <li><a tabindex="-1" href="other.asp?type=swfunotice">西林公告</a></li>
+                <%
+                case "mail":
+                  if id<>"" then
+                    set rs=conn.execute("select * from science where id="&id)
+                  else
+                    set rs=conn.execute("select * from science order by create_time")
+                  end if
+                %>
+                <li><a tabindex="-1" href="other.asp?type=mail">领导邮箱</a></li>
+                <%
+                case "recruit":
+                 if id<>"" then
+                    set rs=conn.execute("select * from science where id="&id)
+                  else
+                    set rs=conn.execute("select * from science order by create_time")
+                  end if
+                %>
+                <li><a tabindex="-1" href="other.asp?type=recruit">人事招聘</a></li>
+                <%
+                case "calendar":
+                  if id<>"" then
+                    set rs=conn.execute("select * from science where id="&id)
+                  else
+                    set rs=conn.execute("select * from science order by create_time")
+                  end if
+                %>
+                <li><a tabindex="-1" href="other.asp?type=calendar">校历</a></li>
+              <%end select%>
               </ul>
             </div>
           </div>

@@ -61,7 +61,7 @@
             <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
             <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
           </div>
-    	  	<div class="span3 news">
+          <div class="span3 news">
             <h4><i class="icon-th-list"></i>学院要闻</h4>
             <ul class="unstyled">
               <%
@@ -95,44 +95,67 @@
               <%end if%>
 
             </ul>
-      		</div>
-      	</div>
-
-	    <div class="row-fluid part1" style="margin-top:8px;">
-          <div class="span3 pic_nav content ">
-            <ul>
-              <li><a href="#"><img src="content/img/dh_01.png" alt="网上办公" /></a><br/>网上办公</li>
-              <li><a href="#"><img src="content/img/dh_02.png" alt="领导信箱" /></a><br/>领导信箱</li>
-              <li><a href="#"><img src="content/img/dh_03.png" alt="邮件查询" /></a><br/>邮件查询</li>
-              <li><a href="#"><img src="content/img/dh_04.png" alt="图书资源" /></a><br/>图书资源</li>
-              <li><a href="#"><img src="content/img/dh_05.png" alt="人事招聘" /></a><br/>人事招聘</li>
-              <li><a href="#"><img src="content/img/dh_06.png" alt="校历" /></a><br \>校历</li>
-            </ul>
           </div>
-       		<div class="span5 tabbable ">
+        </div>
+
+      <div class="row-fluid part1" style="margin-top:8px;">
+          <div class="span3">
+            <div class="content  pic_nav row"  >
+              <ul>
+                <li><a href="http://oa.swfu.edu.cn/thinkeroa/"><img src="content/img/dh_01.png" alt="OA办公系统" /></a><br/>网上办公</li>
+                <li><a href="#"><img src="content/img/dh_02.png" alt="领导信箱" /></a><br/>领导信箱</li>
+                <li><a href="http://202.203.132.10:8080/postLetterInfoAction.do?method=seachPostByUserNameFramer&userName=&postNumber=133"><img src="content/img/dh_03.png" alt="邮件查询" /></a><br/>邮件查询</li>
+                <li><a href="http://lib.swfc.edu.cn/"><img src="content/img/dh_04.png" alt="图书资源" /></a><br/>图书资源</li>
+                <li><a href="#"><img src="content/img/dh_05.png" alt="人事招聘" /></a><br/>人事招聘</li>
+                <li><a href="#"><img src="content/img/dh_06.png" alt="校历" /></a><br \>校历</li>
+              </ul>
+            </div>
+            <div class="row content" style="width:220px;">
+              <img src="content/img/zs.png" />
+            </div>
+          </div>
+          
+          <div class="span5">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab11" data-toggle="tab">科研动态</a></li>
+              <li class="active"><a href="#tab11" data-toggle="tab">西林公告</a></li>
+              <li><a href="#tab12" data-toggle="tab">科研动态</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab11">
-    	        	<ul class="unstyled science">
+                <ul class="unstyled science">
                   <%
                   set rs13 = conn.execute("select top 4 title ,url from science order by create_time")
                   if not (rs13.eof  and rs13.bof) then 
                   rs13.movefirst
                   do while not rs13.eof 
                   %>
-    	        		<li><a href="<%=rs13.fields("url")%>"><%=cutstr(rs13.fields("title"),20)%></a></li>
+                  <li><a href="<%=rs13.fields("url")%>"><%=cutstr(rs13.fields("title"),20)%></a></li>
                   <%
                   rs13.movenext
                   loop
                   end if
                   %>
-    	        	</ul>
+                </ul>
+              </div>              
+              <div class="tab-pane" id="tab12">
+                <ul class="unstyled science">
+                  <%
+                  set rs13 = conn.execute("select top 4 title ,url from science order by create_time")
+                  if not (rs13.eof  and rs13.bof) then 
+                  rs13.movefirst
+                  do while not rs13.eof 
+                  %>
+                  <li><a href="<%=rs13.fields("url")%>"><%=cutstr(rs13.fields("title"),20)%></a></li>
+                  <%
+                  rs13.movenext
+                  loop
+                  end if
+                  %>
+                </ul>
               </div>
             </div>
-      		</div>
-        	<div class="span4 tabbable">
+          </div>
+          <div class="span4 tabbable">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab21" data-toggle="tab">学院通知</a></li>
             </ul>
@@ -147,9 +170,9 @@
                 </ul>
               </div>
             </div>
-        	</div>
+          </div>
 
-      	</div>
+        </div>
       </div>
 <!--#include file="handler/footer.asp"-->
 
