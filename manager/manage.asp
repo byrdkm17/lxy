@@ -14,7 +14,9 @@
 %>
   <% case "site": %> <!--#include file="template/site.asp" -->
   <% case "content": %> <!--#include file="template/content.asp" -->
-  <% case "auth": %> <!--#include file="template/auth.asp" -->
+  <% case "auth": %> <!--#include file="template/auth.asp" -->  
+  <% case "remote": %> <!--#include file="template/remote.asp" -->
+  <% case "other": %> <!--#include file="template/other.asp" -->
 <%
   end select
 %>

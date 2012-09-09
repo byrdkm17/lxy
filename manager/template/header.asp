@@ -26,10 +26,14 @@
                     <a class="brand" href="#">林学院</a>
                     <div class="nav-collapse">
                         <ul class="nav">
+                            <% if session("username") <> "" then %>
                             <li><a href="manage.asp" data-nav="home">首页</a></li>
                             <li><a href="manage.asp?nav=site" data-nav="site">站点管理</a></li>
                             <li><a href="manage.asp?nav=content" data-nav="content">内容管理</a></li>
-                            <li><a href="manage.asp?nav=auth" data-nav="auth">权限管理</a></li>
+                            <li><a href="manage.asp?nav=auth" data-nav="auth">权限管理</a></li>                            
+                            <li><a href="manage.asp?nav=remote" data-nav="remote">数据抓取</a></li>
+                            <li><a href="manage.asp?nav=other" data-nav="other">其他</a></li>
+                            <% end if %>
                         </ul>
                     </div>
                     <div class="nav-collapse pull-right">

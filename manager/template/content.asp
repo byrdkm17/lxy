@@ -10,10 +10,10 @@
     </div>
     <div>
         <ul class="nav nav-tabs">
-            <li<% if cur = "article" or cur = "" then %> class="active"<% end if %>><a href="manage.asp?nav=content&mod=article" data-target="#article">文章管理</a></li>
-            <li<% if cur = "notice" then %> class="active"<% end if %>><a href="manage.asp?nav=content&mod=notice" data-target="#notice">通知发布</a></li>
-            <li<% if cur = "science" then %> class="active"<% end if %>><a href="manage.asp?nav=content&mod=science" data-target="#science">科研动态管理</a></li>
-            <li<% if cur = "news" then %> class="active"<% end if %>><a href="manage.asp?nav=content&mod=news" data-target="#news">学院要闻管理</a></li>
+            <li<% if cur = "article" or cur = "" then %> class="active"<% end if %>><a href="manage.asp?nav=content&mod=article">文章管理</a></li>
+            <li<% if cur = "notice" then %> class="active"<% end if %>><a href="manage.asp?nav=content&mod=notice">通知发布</a></li>
+            <li<% if cur = "science" then %> class="active"<% end if %>><a href="manage.asp?nav=content&mod=science">科研动态管理</a></li>
+            <li<% if cur = "news" then %> class="active"<% end if %>><a href="manage.asp?nav=content&mod=news">学院要闻管理</a></li>
             <li class="pull-right nav-search">
                 <div class="input-append">
                     <input class="search" type="text"><button class="btn search" type="button">搜索</button>

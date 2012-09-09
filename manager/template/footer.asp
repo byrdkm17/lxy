@@ -1,7 +1,7 @@
 ﻿<div class="container footer">
-    <ul>
+    <ul class="pull-right">
+        <li class="disabled">推荐使用 Chrome 或 Firefox 浏览器, 以获得更好的体验</li>
         <li class="static">2012 &copy; <a href="#">林学院</a></li>
-        <li class="static"><a href="#">关于</a></li>
     </ul>
 </div>
 

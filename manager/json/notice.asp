@@ -13,19 +13,19 @@
 
         if edit = "" then
             if title = "" then
-                set rs = conn.execute("select * from article where menu_id = 20000 order by create_time desc")
+                set rs = conn.execute("select * from notice order by create_time desc")
             else
-                set rs = conn.execute("select * from article where menu_id = 20000 and title like '%" & title & "%' order by create_time desc")
+                set rs = conn.execute("select * from notice where title like '%" & title & "%' order by create_time desc")
             end if
         else 
-            set rs = conn.execute("select * from article where id = " & id)
+            set rs = conn.execute("select * from notice where id = " & id)
         end if
 
         response.write json(rs)
 
     else
 
-        set rs = conn.execute("select content from article where id = " & id)
+        set rs = conn.execute("select content from notice where id = " & id)
 
         rs.movefirst
 
