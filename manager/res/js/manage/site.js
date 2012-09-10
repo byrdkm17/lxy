@@ -1,5 +1,5 @@
 KM.addMod(function() {
-    var self = KM.mod('site', true);
+    var self = KM.mod('site.menu', true);
 
     self.path = location.href.split("/manager/")[0] + '/manager/';
 
@@ -84,7 +84,7 @@ KM.addMod(function() {
         loadData: function(url, params, callback, region, bind) {
             bind = bind || false
 
-            url += '?_dc=' + +new Date();
+            url += '&_dc=' + +new Date();
             region = region || window;
 
             if(!bind) {
@@ -104,16 +104,14 @@ KM.addMod(function() {
         },
 
         postData: function(url, params, callback, region) {
-
             region = region || window;
-
             $.post(url, params, function() {
                 callback.apply(region, arguments);
             });
         },
 
         chechSession: function(callback) {
-            $.get(self.path + 'json/session.asp', {}, function(data) {
+            $.get(self.path + 'json.asp?action=session', {}, function(data) {
                 if(data === 'false') {
                     location.href = location.href;
                 } else {
@@ -136,7 +134,6 @@ KM.addMod(function() {
                 $tbody.append(tpl.menu.tr.render(this));
                 $tbody.find('tr:last').data('source', this);
             });
-
             $tbody.find('a.manage').click(function(e) {
                 e.preventDefault();
                 fn.manageClick.call(this, e);
@@ -204,14 +201,14 @@ KM.addMod(function() {
             });
 
             if($tr.data('source').type === 0) {
-                url += 'json/article.asp';
+                url += 'json.asp?action=article';
                 params.id = $tr.data('source').id;
                 params.name = $tr.data('source').name;
                 callback = fn.renderArticle;
             }
 
             if($tr.data('source').type === 1) {
-                url += 'json/sub.asp';
+                url += 'json.asp?action=sub';
                 params.id = $tr.data('source').id;
                 if($tr.data('source').is_nav === 1) {
                     params.type = 1;
@@ -247,9 +244,9 @@ KM.addMod(function() {
             $('.breadcrumb').find('li.list').hide();
             $('.breadcrumb').find('li.single').show();
 
-            fn.loadData(self.path + 'json/' + type + '.asp', {edit: 1, id: $tr.data('source').id}, function(data) {
+            fn.loadData(self.path + 'json.asp?action=' + type, {edit: 1, id: $tr.data('source').id}, function(data) {
                 if(type === 'article') {
-                    $.ajax(self.path + 'json/article.asp', {
+                    $.ajax(self.path + 'json.asp?action=article&_dc=' + +new Date(), {
                         data: {content: 1, id: $tr.data('source').id},
                         success: function(content) {
                            fn.showEdit(type, data, content);
@@ -265,7 +262,7 @@ KM.addMod(function() {
         deleteClick: function() {
             var $tr = $(this).closest('tr'),
                 type = $(this).data('type');
-            fn.postData(self.path + 'do/' + type + '.asp', {is_del: 1, id: $tr.data('source').id}, function(data) {
+            fn.postData(self.path + 'do.asp?action=' + type, {is_del: 1, id: $tr.data('source').id}, function(data) {
                 $('.breadcrumb').find('a.refresh').click();
             }, self);
         },
@@ -286,7 +283,7 @@ KM.addMod(function() {
         showEdit: function(type, data, content) {
             data = $.isArray(data) ? (data[0] || {}) : (data || {});
 
-            var $edit;            
+            var $edit;
 
             if(type === 'menu') {
                 $edit = $('.editMenu');
@@ -356,7 +353,7 @@ KM.addMod(function() {
         parentMenu: function(nav_id, parent_id, $edit) {
             nav_id = nav_id || 1;
             parent_id = parent_id || 0;
-            fn.loadData(self.path + 'json/sub.asp', {id: nav_id, type: 3}, function(data) {
+            fn.loadData(self.path + 'json.asp?action=sub', {id: nav_id, type: 5}, function(data) {
                 $edit.find('#parent_id').empty();
                 $edit.find('#parent_id').append('<option value="0"></option>');
                 $.each(data, function() {
@@ -367,7 +364,7 @@ KM.addMod(function() {
         },
 
         navMenu: function(nav_id, $edit) {
-            fn.loadData(self.path + 'json/menu.asp', {type: 1}, function(data) {
+            fn.loadData(self.path + 'json.asp?action=menu', {type: 1}, function(data) {
                 $edit.find('#nav_id').empty();
                 $.each(data, function() {
                     $edit.find('#nav_id').append('<option value="'+ this.id +'">' + this.name+ '</option>');
@@ -379,7 +376,7 @@ KM.addMod(function() {
 
     self.init.add(function() {      
         var $ul =  $('.breadcrumb');
-        fn.loadData(self.path + 'json/menu.asp', {}, fn.renderMenu, self);
+        fn.loadData(self.path + 'json.asp?action=menu', {}, fn.renderMenu, self);
 
         $('.edit').find('#type').change(function() {
             if($(this).val() == 2) {
@@ -432,7 +429,7 @@ KM.addMod(function() {
             }
 
             if(pass) {
-                url = self.path + 'do/' + type + '.asp';
+                url = self.path + 'do.asp?action=' + type;
 
                 fn.postData(url, params, function() {
                     $ul.find('.closem').click();
@@ -450,7 +447,7 @@ KM.addMod(function() {
             e.preventDefault();
             fn.chechSession(function() {
                 var url = $('.breadcrumb li.active').data('load')[0],
-                    type = url.split('/')[url.split('/').length - 1].split('.')[0],
+                    type = $('.breadcrumb li.active').data('load')[0].split('?')[1].split('&')[0].split('=')[1],
                     nav_id = $('.breadcrumb li:eq(1)').data('load')[1].id,
                     menu_id = $('.breadcrumb li.active').data('load')[1].is_nav ? 0 : $('.breadcrumb li.active').data('load')[1].id,
                     menu_name = $('.breadcrumb li.active').data('load')[1].is_nav ? '' : $('.breadcrumb li.active').data('load')[1].name,

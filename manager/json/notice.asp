@@ -1,8 +1,6 @@
-<!--#include file="../conn.asp" -->
-<!--#include file="json.asp" -->
 <% 
 
-    dim edit, id, content, title, rs
+function json_notice()
 
     id = request("id")
     edit = request("edit")
@@ -26,15 +24,14 @@
     else
 
         set rs = conn.execute("select content from notice where id = " & id)
-
         rs.movefirst
-
         response.write rs.fields("content")
 
     end if
 
-    conn.close()
-    
+    conn.close()    
     set rs = nothing
+
+end function
 
 %>

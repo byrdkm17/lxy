@@ -1,7 +1,6 @@
-<!--#include file="../conn.asp" -->
 <%
 
-   dim id, title, url, is_del, sqlstr
+function do_science()
 
     id = request("id")
     title = request("title")
@@ -23,7 +22,8 @@
     end if
 
     conn.execute(sqlstr)
-
     conn.close
+
+end function
 
 %>

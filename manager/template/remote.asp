@@ -14,8 +14,8 @@
             <li<% if cur = "list" then %> class="active"<% end if %>><a href="manage.asp?nav=remote&mod=list">抓取列表</a></li>
         </ul>     
         <div class="tab-content">
-            <div class="tab-pane active" id="source"><!--#include file="remote_source.asp" --></div>
-            <div class="tab-pane active" id="list"><!--#include file="remote_list.asp" --></div>
+            <div class="tab-pane active" id="source"><!--#include file="remote\source.asp" --></div>
+            <div class="tab-pane active" id="list"><!--#include file="remote\list.asp" --></div>
         </div>
     </div>
 </div>

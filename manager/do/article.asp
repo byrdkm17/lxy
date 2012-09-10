@@ -1,7 +1,6 @@
-<!--#include file="../conn.asp" -->
 <%
 
-    dim id, menu_id, title, content, img_url, is_del, sqlstr
+function do_article()
 
     id = request("id")
     menu_id = request("menu_id")
@@ -33,8 +32,8 @@
     end if
 
     conn.execute(sqlstr)
-
     conn.close
 
+end function
 
 %>

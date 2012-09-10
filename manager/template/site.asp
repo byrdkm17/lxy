@@ -12,7 +12,7 @@
             <li class="pull-right nav-search" style="display: none; "><input type="text" placeholder=""><span rel="tooltip" title="帮助"><i class="icon-question-sign"></i></span></li>
         </ul>     
         <div class="tab-content">
-            <div class="tab-pane active" id="menu"><!--#include file="site_menu.asp" --></div>
+            <div class="tab-pane active" id="menu"><!--#include file="site\menu.asp" --></div>
         </div>
     </div>
 </div>

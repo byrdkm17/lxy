@@ -1,12 +1,9 @@
-<!--#include file="../conn.asp" -->
-<!--#include file="json.asp" -->
 <% 
 
-    dim edit, id, rs
+function json_user()
 
     id = request("id")
     edit = request("edit")
-
 
     if edit = "" then
         set rs = conn.execute("select * from users order by id")
@@ -15,9 +12,9 @@
     end if
 
     response.write json(rs)
-
-    conn.close()
-    
+    conn.close()    
     set rs = nothing
+
+end function
 
 %>

@@ -1,13 +1,10 @@
-<!--#include file="../conn.asp" -->
-<!--#include file="json.asp" -->
 <% 
 
-    dim edit, id, title, rs
+function json_science()
 
     id = request("id")
     edit = request("edit")
     title = request("title")
-
 
     if edit = "" then
         if title = "" then
@@ -20,9 +17,9 @@
     end if
 
     response.write json(rs)
-
-    conn.close()
-    
+    conn.close()    
     set rs = nothing
+
+end function
 
 %>

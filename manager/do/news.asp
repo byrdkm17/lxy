@@ -1,7 +1,6 @@
-<!--#include file="../conn.asp" -->
 <%
 
-   dim id, abstract, title, content, img_url, is_del, sqlstr
+function do_news()
 
     id = request("id")
     abstract = request("abstract")
@@ -33,7 +32,8 @@
     end if
 
     conn.execute(sqlstr)
-
     conn.close
+
+end function
 
 %>

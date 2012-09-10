@@ -1,7 +1,6 @@
-<!--#include file="../conn.asp" -->
 <%
 
-   dim id, menu_name, subtype, seq, nav_id, parent_id, is_del, sqlstr
+function do_sub()
 
     id = request("id")
     nav_id = request("nav_id")
@@ -26,7 +25,8 @@
     end if
 
     conn.execute(sqlstr)
-
     conn.close
+
+end function
 
 %>

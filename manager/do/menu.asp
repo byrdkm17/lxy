@@ -1,7 +1,6 @@
-<!--#include file="../conn.asp" -->
 <%
 
-    dim id, name, subtype, link, seq, is_del, sqlstr
+function do_menu()
 
     id = request("id")
     name = request("name")
@@ -13,7 +12,7 @@
     if is_del <> "" then
 
         sqlstr = "delete from nav where id = " & id
-
+        
     else
 
         if id = "" then
@@ -25,7 +24,8 @@
     end if
 
     conn.execute(sqlstr)
-
     conn.close
+
+end function
 
 %>

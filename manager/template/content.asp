@@ -23,11 +23,11 @@
         <div class="tab-content">
             <div class="tab-pane active" id="<%=cur%>">
                 <% select case cur:
-                    case "article": %><!--#include file="content_article.asp" -->
-                <%  case "notice": %><!--#include file="content_notice.asp" -->
-                <%  case "science": %><!--#include file="content_science.asp" -->
-                <%  case "news": %><!--#include file="content_news.asp" -->
-                <%  case else: %><!--#include file="content_article.asp" -->
+                    case "article": %><!--#include file="content\article.asp" -->
+                <%  case "notice": %><!--#include file="content\notice.asp" -->
+                <%  case "science": %><!--#include file="content\science.asp" -->
+                <%  case "news": %><!--#include file="content\news.asp" -->
+                <%  case else: %><!--#include file="content\article.asp" -->
                 <% end select %>
             </div>
         </div>

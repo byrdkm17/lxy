@@ -1,17 +1,16 @@
 KM.addMod(function() {
-    var self = KM.mod('content.science', true);
+    var self = KM.mod('content.notice', true);
 
     self.path = location.href.split("/manager/")[0] + '/manager/';
 
     var tpl = {
 
-        science: {
+        notice: {
 
              tr: juicer([
                 '<tr>',
                     '<td></td>',
-                    '<td>${title}</td>',
-                    '<td><a href="${url}" target="_blank">${url}</a></td>',
+                    '<td><span title="${title}">${title}</span></td>',
                     '<td class="center">${author}</td>',
                     '<td class="center">${create_time}</td>',                                
                     '<td><div class="action center">',                      
@@ -28,8 +27,8 @@ KM.addMod(function() {
     var fn = {
         loadData: function(url, params, callback, region) {
 
-            url = url || self.path + 'json/science.asp';
-            url += '?_dc=' + +new Date();
+            url = url || self.path + 'json.asp?action=notice';
+            url += '&_dc=' + +new Date();
             params = params || {};
             callback = callback || fn.render
             region = region || window;
@@ -42,7 +41,7 @@ KM.addMod(function() {
 
         postData: function(url, params, callback, region) {
 
-            url = url || self.path + 'do/science.asp';
+            url = url || self.path + 'do.asp?action=notice';
             region = region || w;
 
             $.post(url, params, function() {
@@ -51,7 +50,7 @@ KM.addMod(function() {
         },
 
         chechSession: function(callback) {
-            $.get(self.path + 'json/session.asp', {}, function(data) {
+            $.get(self.path + 'json.asp?action=session&_dc=' + +new Date(), {}, function(data) {
                 if(data === 'false') {
                     location.href = location.href;
                 } else {
@@ -70,7 +69,7 @@ KM.addMod(function() {
             $tbody.empty();
 
             $.each(data, function() {
-                $tbody.append(tpl.science.tr.render(this));
+                $tbody.append(tpl.notice.tr.render(this));
                 $tbody.find('tr:last').data('source', this);
             });
 
@@ -93,7 +92,7 @@ KM.addMod(function() {
             
 
             var $tr = $(this).closest('tr'),
-                name = ($tr.data('source').name || $tr.data('source').title)  + ' (编辑)';
+                name = $tr.data('source').title + ' (编辑)';
 
             $('.breadcrumb').find('li.active')
                 .removeClass('active')
@@ -110,7 +109,7 @@ KM.addMod(function() {
             $('.breadcrumb').find('li.single').show();
 
             fn.loadData(false, {edit: 1, id: $tr.data('source').id}, function(data) {
-                $.ajax(self.path + 'json/science.asp', {
+                $.ajax(self.path + 'json?action=notice&_dc=' + +new Date(), {
                     data: {content: 1, id: $tr.data('source').id},
                     success: function(content) {
                         fn.showEdit(data, content);
@@ -146,7 +145,7 @@ KM.addMod(function() {
             var $edit = $('.edit');
 
             $edit.find('#title').val(data.title || '');
-            $edit.find('#url').val(data.url || '');
+            self.editor.html(content || '');
             $edit.find('#id').val(data.id || null);
 
             $('table').hide();
@@ -173,15 +172,16 @@ KM.addMod(function() {
                 pass = true;
 
             $edit.find('.submitValue').each(function() {
-
                 if($(this).hasClass('required') && String($(this).val()) === "") {
                     $(this).focus();
                     pass = false;
                     return pass;
-                } else {                    
+                } else {
                     params[$(this).attr('name')] = $(this).val();
                 }
             });
+
+            params.content = self.editor.html();
 
             if(pass) {
                 fn.postData(false, params, function() {

@@ -10,7 +10,7 @@ KM.addMod(function() {
             tr: juicer([
                 '<tr>',
                     '<td></td>',
-                    '<td>${title}</td>',
+                    '<td><span title="${title}">${title}</span></td>',
                     '<td class="center">${author}</td>',
                     '<td class="center">${menu_name}</td>',
                     '<td class="center">$${img_url|article_tr_url}</td>',
@@ -41,8 +41,8 @@ KM.addMod(function() {
     var fn = {
         loadData: function(url, params, callback, region) {
 
-            url = url || self.path + 'json/article.asp';
-            url += '?_dc=' + +new Date();
+            url = url || self.path + 'json.asp?action=article';
+            url += '&_dc=' + +new Date();
             params = params || {all: 1};
             callback = callback || fn.render
             region = region || window;
@@ -55,7 +55,7 @@ KM.addMod(function() {
 
         postData: function(url, params, callback, region) {
 
-            url = url || self.path + 'do/article.asp';
+            url = url || self.path + 'do.asp?action=article';
             region = region || window;
 
             $.post(url, params, function() {                
@@ -64,7 +64,7 @@ KM.addMod(function() {
         },
 
         chechSession: function(callback) {
-            $.get(self.path + 'json/session.asp', {}, function(data) {
+            $.get(self.path + 'json.asp?action=session&_dc=' + +new Date(), {}, function(data) {
                 if(data === 'false') {
                     location.href = location.href;
                 } else {
@@ -101,7 +101,7 @@ KM.addMod(function() {
         editClick: function() {
 
             var $tr = $(this).closest('tr'),
-                name = ($tr.data('source').name || $tr.data('source').title)  + ' (编辑)';
+                name = $tr.data('source').title + ' (编辑)';
 
             $('.breadcrumb').find('li.active')
                 .removeClass('active')
@@ -118,7 +118,7 @@ KM.addMod(function() {
             $('.breadcrumb').find('li.single').show();
 
             fn.loadData(false, {edit: 1, id: $tr.data('source').id}, function(data) {
-                $.ajax(self.path + 'json/article.asp', {
+                $.ajax(self.path + 'json.asp?action=article&_dc=' + +new Date(), {
                     data: {content: 1, id: $tr.data('source').id},
                     success: function(content) {
                        fn.showEdit(data, content);
@@ -130,7 +130,7 @@ KM.addMod(function() {
 
         deleteClick: function() {
             var $tr = $(this).closest('tr');
-            fn.postData(self.path + 'do/article.asp', {is_del: 1, id: $tr.data('source').id}, function(data) {
+            fn.postData(false, {is_del: 1, id: $tr.data('source').id}, function(data) {
                 $('.breadcrumb').find('a.refresh').click();
             }, self);
         },
@@ -175,7 +175,7 @@ KM.addMod(function() {
         parentMenu: function(nav_id, parent_id, $edit) {
             nav_id = nav_id || 1;
             parent_id = parent_id || 0;
-            fn.loadData(self.path + 'json/sub.asp', {id: nav_id, type: 4}, function(data) {
+            fn.loadData(self.path + 'json.asp?action=sub', {id: nav_id, type: 4}, function(data) {
                 $edit.find('#menu_id').empty();
                 $edit.find('#menu_id').append('<option value="0"></option>');
                 $.each(data, function() {
@@ -186,7 +186,7 @@ KM.addMod(function() {
         },
 
         navMenu: function(nav_id, $edit) {
-            fn.loadData(self.path + 'json/menu.asp', {type: 1}, function(data) {
+            fn.loadData(self.path + 'json.asp?action=menu', {type: 1}, function(data) {
                 $edit.find('#nav_id').empty();
                 $.each(data, function() {
                     $edit.find('#nav_id').append('<option value="'+ this.id +'">' + this.name+ '</option>');

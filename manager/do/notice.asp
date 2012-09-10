@@ -1,7 +1,6 @@
-<!--#include file="../conn.asp" -->
 <%
 
-   dim id, title, content, is_del, sqlstr
+function do_notice()
 
     id = request("id")
     title = request("title")
@@ -15,15 +14,16 @@
     else    
 
         if id = "" then
-            sqlstr = "insert into notice (title, author, content, create_time) values " & "(20000, '" & title & "', '" & session("username") & "', '" & content & "', '" & now() & "')"
+            sqlstr = "insert into notice (title, author, content, create_time) values " & "('" & title & "', '" & session("username") & "', '" & content & "', '" & now() & "')"
         else
-            sqlstr = "update article set title = '" & title & "', content = '" & content & "' where id = " & id
+            sqlstr = "update notice set title = '" & title & "', content = '" & content & "' where id = " & id
         end if
 
     end if
 
     conn.execute(sqlstr)
-
     conn.close
+
+end function
 
 %>

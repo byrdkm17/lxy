@@ -7,7 +7,7 @@
             <li class="active"><a href="#">用户管理</a></li>
         </ul>     
         <div class="tab-content">
-            <div class="tab-pane active" id="user"><!--#include file="auth_user.asp" --></div>
+            <div class="tab-pane active" id="user"><!--#include file="auth\user.asp" --></div>
         </div>
     </div>
 </div>

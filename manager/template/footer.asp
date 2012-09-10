@@ -12,18 +12,18 @@
     <script src="res/kindeditor/lang/zh_CN.js"></script>
     <script src="res/kindeditor/plugins/code/prettify.js"></script>
     <script src="res/js/juicer.js"></script>
-    <script src="res/js/manage.base.js"></script>
+    <script src="res/js/manage/base.js"></script>
     <% 
     select case page:
-        case "login": response.write "<script src=""res/js/manage.login.js""></script>"
-        case "site": response.write "<script src=""res/js/manage.site.js""></script>"
+        case "login": response.write "<script src=""res/js/manage/login.js""></script>"
+        case "site": response.write "<script src=""res/js/manage/site.js""></script>"
         case "content": 
             select case cur:
-                case "article": response.write "<script src=""res/js/manage.content.article.js""></script>"
-                case "notice": response.write "<script src=""res/js/manage.content.notice.js""></script>"
-                case "science": response.write "<script src=""res/js/manage.content.science.js""></script>"
-                case "news": response.write "<script src=""res/js/manage.content.news.js""></script>"
-                case else: response.write "<script src=""res/js/manage.content.article.js""></script>"
+                case "article": response.write "<script src=""res/js/manage/content/article.js""></script>"
+                case "notice": response.write "<script src=""res/js/manage/content/notice.js""></script>"
+                case "science": response.write "<script src=""res/js/manage/content/science.js""></script>"
+                case "news": response.write "<script src=""res/js/manage/content/news.js""></script>"
+                case else: response.write "<script src=""res/js/manage/content/article.js""></script>"
             end select
     end select
     %>

@@ -16,7 +16,7 @@
             </li>
         </ul>     
         <div class="tab-content">
-            <div class="tab-pane active" id="list"><!--#include file="other_list.asp" --></div>
+            <div class="tab-pane active" id="list"><!--#include file="other\list.asp" --></div>
         </div>
     </div>
 </div>

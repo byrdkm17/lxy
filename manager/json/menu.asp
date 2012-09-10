@@ -1,8 +1,6 @@
-<!--#include file="../conn.asp" -->
-<!--#include file="json.asp" -->
 <%
 
-    dim edit, id, subtype, rs, where
+function json_menu()
 
     id = request("id")
     edit = request("edit")
@@ -20,8 +18,9 @@
 
     response.write json(rs)
 
-    conn.close()
-    
+    conn.close()    
     set rs = nothing
+
+end function
 
 %>

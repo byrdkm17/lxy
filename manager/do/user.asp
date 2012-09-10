@@ -1,8 +1,6 @@
-<!--#include file="../conn.asp" -->
-<!--#include file="../md5.asp" -->
 <%
 
-   dim id, username, passwd, state, usertype, is_del, sqlstr, rs
+function do_user()
 
     id = request("id")
     username = request("username")
@@ -49,5 +47,8 @@
     end if    
 
     conn.close
+    set rs = nothing
+
+end function
 
 %>
