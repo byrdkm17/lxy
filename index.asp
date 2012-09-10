@@ -62,7 +62,10 @@
             <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
           </div>
           <div class="span3 news">
-            <h4><i class="icon-th-list"></i>学院要闻</h4>
+            <div class="more" style="background: url("../../content/img/news_bg.png") left bottom no-repeat;">
+              <h4><i class="icon-th-list" style="margin-right:5px;"></i>学院要闻</h4>
+              <a href="other.asp?type=news"><img src="content/img/more.gif" /></a>
+            </div>
             <ul class="unstyled">
               <%
                 set rs12 = conn.execute("select top 2 id,title ,abstract from news order by create_time")
@@ -81,19 +84,8 @@
                 loop
                 rs12.close
                 set rs12=nothing
-              else
+                end if
               %>
-              <li>
-                <h5>我校国际学院泰国喃篷职业技术学院分院挂牌</h5>
-                <p>应泰国喃篷职业技术学院院长阿吨.拼通博士邀请，经我校领导审批，对外合作交流处处长兼国际学院院长赵林森...</p>
-
-              </li>
-              <li>
-                <h5>体育部召开新学期全体教师教学工作会议</h5>
-                <p> 8月25日上午，体育部领导班子及全体教研室、中心主任对新学期的工作进行了统一部署。下午3点，体育部在体...</p>
-              </li>
-              <%end if%>
-
             </ul>
           </div>
         </div>
@@ -102,12 +94,12 @@
           <div class="span3">
             <div class="content  pic_nav row"  >
               <ul>
-                <li><a href="http://oa.swfu.edu.cn/thinkeroa/"><img src="content/img/dh_01.png" alt="OA办公系统" /></a><br/>网上办公</li>
-                <li><a href="#"><img src="content/img/dh_02.png" alt="领导信箱" /></a><br/>领导信箱</li>
+                <li><a href="http://oa.swfu.edu.cn/thinkeroa/"><img src="content/img/dh_01.png" alt="OA办公系统" /></a><br/>OA系统</li>
+                <li><a href="other.asp?type=mail"><img src="content/img/dh_02.png" alt="领导信箱" /></a><br/>领导信箱</li>
                 <li><a href="http://202.203.132.10:8080/postLetterInfoAction.do?method=seachPostByUserNameFramer&userName=&postNumber=133"><img src="content/img/dh_03.png" alt="邮件查询" /></a><br/>邮件查询</li>
                 <li><a href="http://lib.swfc.edu.cn/"><img src="content/img/dh_04.png" alt="图书资源" /></a><br/>图书资源</li>
-                <li><a href="#"><img src="content/img/dh_05.png" alt="人事招聘" /></a><br/>人事招聘</li>
-                <li><a href="#"><img src="content/img/dh_06.png" alt="校历" /></a><br \>校历</li>
+                <li><a href="other.asp?type=recruit"><img src="content/img/dh_05.png" alt="人事招聘" /></a><br/>人事招聘</li>
+                <li><a href="other.asp?type=calendar"><img src="content/img/dh_06.png" alt="校历" /></a><br \>校历</li>
               </ul>
             </div>
             <div class="row content" style="width:220px;">
@@ -124,7 +116,7 @@
               <div class="tab-pane active" id="tab11">
                 <ul class="unstyled science">
                   <%
-                  set rs13 = conn.execute("select top 4 title ,url from science order by create_time")
+                  set rs13 = conn.execute("select top 4 title ,url from notice where type=1 order by create_time")
                   if not (rs13.eof  and rs13.bof) then 
                   rs13.movefirst
                   do while not rs13.eof 
@@ -133,6 +125,8 @@
                   <%
                   rs13.movenext
                   loop
+                  rs13.close
+                  set rs13=nothing
                   end if
                   %>
                 </ul>
@@ -149,6 +143,8 @@
                   <%
                   rs13.movenext
                   loop
+                  rs13.close
+                  set rs13=nothing
                   end if
                   %>
                 </ul>
@@ -168,10 +164,12 @@
                     call list_notice.query_notice()
                   %>
                 </ul>
+                <div class="more" >
+                  <a href="other.asp?type=notice"><img src="content/img/more2.gif" /></a>
+                </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
 <!--#include file="handler/footer.asp"-->
