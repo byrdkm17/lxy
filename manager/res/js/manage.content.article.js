@@ -1,19 +1,20 @@
 KM.addMod(function() {
-    var self = KM.mod('content.news', true);
+    var self = KM.mod('content.article', true);
 
     self.path = location.href.split("/manager/")[0] + '/manager/';
 
     var tpl = {
 
-        news: {
+        article: {
 
-             tr: juicer([
+            tr: juicer([
                 '<tr>',
                     '<td></td>',
                     '<td>${title}</td>',
                     '<td class="center">${author}</td>',
-                    '<td class="center">$${img_url|science_tr_url}</td>',
-                    '<td class="center">${create_time}</td>',                               
+                    '<td class="center">${menu_name}</td>',
+                    '<td class="center">$${img_url|article_tr_url}</td>',
+                    '<td class="center">${create_time}</td>',
                     '<td><div class="action center">',                      
                         '<a href="#" rel="tooltip" title="编辑" class="edit">编辑</a>',
                         '<a href="#" rel="tooltip" title="删除" class="delete">删除</a>',
@@ -21,9 +22,9 @@ KM.addMod(function() {
                 '</tr>'
             ].join('')),
 
-             _reg: (function() {
+            _reg: (function() {
 
-                juicer.register('science_tr_url', function(data) {
+                juicer.register('article_tr_url', function(data) {
                     if(data) {
                         return '<a href="' + data + '" target="_blank">图片链接</a>';
                     } else {
@@ -40,9 +41,9 @@ KM.addMod(function() {
     var fn = {
         loadData: function(url, params, callback, region) {
 
-            url = url || self.path + 'json/news.asp';
+            url = url || self.path + 'json/article.asp';
             url += '?_dc=' + +new Date();
-            params = params || {};
+            params = params || {all: 1};
             callback = callback || fn.render
             region = region || window;
 
@@ -54,10 +55,10 @@ KM.addMod(function() {
 
         postData: function(url, params, callback, region) {
 
-            url = url || self.path + 'do/news.asp';
-            region = region || w;
+            url = url || self.path + 'do/article.asp';
+            region = region || window;
 
-            $.post(url, params, function() {
+            $.post(url, params, function() {                
                 callback.apply(region, arguments);
             });
         },
@@ -77,12 +78,12 @@ KM.addMod(function() {
             $('div.edit').hide();
             $('table').show();
 
-            var $tbody = $('tbody');
+            var $tbody = $('tbody');     
 
             $tbody.empty();
 
             $.each(data, function() {
-                $tbody.append(tpl.news.tr.render(this));
+                $tbody.append(tpl.article.tr.render(this));
                 $tbody.find('tr:last').data('source', this);
             });
 
@@ -95,10 +96,9 @@ KM.addMod(function() {
                 fn.deleteClick.call(this, e);
             });
 
-
         },
 
-        editClick: function() {      
+        editClick: function() {
 
             var $tr = $(this).closest('tr'),
                 name = ($tr.data('source').name || $tr.data('source').title)  + ' (编辑)';
@@ -118,24 +118,19 @@ KM.addMod(function() {
             $('.breadcrumb').find('li.single').show();
 
             fn.loadData(false, {edit: 1, id: $tr.data('source').id}, function(data) {
-                $.ajax(self.path + 'json/news.asp', {
+                $.ajax(self.path + 'json/article.asp', {
                     data: {content: 1, id: $tr.data('source').id},
                     success: function(content) {
-                        $.ajax(self.path + 'json/news.asp', {
-                            data: {content: 1, id: $tr.data('source').id},
-                            success: function(abstract) {
-                                fn.showEdit(data, content, abstract);
-                            }
-                        });
+                       fn.showEdit(data, content);
                     }
                 });
-            });
+            }, self, true);
 
         },
 
         deleteClick: function() {
             var $tr = $(this).closest('tr');
-            fn.postData(false, {is_del: 1, id: $tr.data('source').id}, function(data) {
+            fn.postData(self.path + 'do/article.asp', {is_del: 1, id: $tr.data('source').id}, function(data) {
                 $('.breadcrumb').find('a.refresh').click();
             }, self);
         },
@@ -153,32 +148,70 @@ KM.addMod(function() {
 
         },
 
-        showEdit: function(data, content, abstract) {
+        showEdit: function(data, content) {
             data = $.isArray(data) ? (data[0] || {}) : (data || {});
 
             var $edit = $('.edit');
 
             $edit.find('#title').val(data.title || '');
+
+            fn.navMenu(data.nav_id, $edit);
+            fn.parentMenu(data.nav_id, data.menu_id, $edit);
+
             if(data.img_url) {
                 $edit.find('#set_img').attr('checked', true);
             } else {
                 $edit.find('#set_img').removeAttr('checked');
-            }                        
+            }
             $edit.find('#img_url').val(data.img_url || '');
-            $edit.find('#abstract').val(abstract || '');
             self.editor.html(content || '');
             $edit.find('#id').val(data.id || null);
 
             $('table').hide();
             $edit.show();
 
-        }
+        },
+
+        parentMenu: function(nav_id, parent_id, $edit) {
+            nav_id = nav_id || 1;
+            parent_id = parent_id || 0;
+            fn.loadData(self.path + 'json/sub.asp', {id: nav_id, type: 4}, function(data) {
+                $edit.find('#menu_id').empty();
+                $edit.find('#menu_id').append('<option value="0"></option>');
+                $.each(data, function() {
+                    $edit.find('#menu_id').append('<option value="'+ this.id +'">' + this.name+ '</option>');
+                });
+                $edit.find('#menu_id').val(parent_id);
+            }, this, true);
+        },
+
+        navMenu: function(nav_id, $edit) {
+            fn.loadData(self.path + 'json/menu.asp', {type: 1}, function(data) {
+                $edit.find('#nav_id').empty();
+                $.each(data, function() {
+                    $edit.find('#nav_id').append('<option value="'+ this.id +'">' + this.name+ '</option>');
+                });
+                $edit.find('#nav_id').val(nav_id);
+            }, this, true);
+        },
     }
 
     self.init.add(function() {      
         var $ul =  $('.breadcrumb');
 
         fn.loadData();
+
+        $('.edit').find('#type').change(function() {
+            if($(this).val() == 2) {
+                $(this).closest('.edit').find('div.c-g-link').show();
+            } else {
+                $(this).closest('.edit').find('div.c-g-link').hide().find('#link').val('');
+            }
+        });
+
+        $('.edit').find('#nav_id').change(function() {
+            fn.parentMenu($(this).val(), 0, $(this).closest('.edit'));
+        });
 
         $('.edit').find('#set_img').click(function(e) {
             var $edit = $(this).closest('.edit');
@@ -208,6 +241,11 @@ KM.addMod(function() {
                     pass = false;
                     return pass;
                 } else {
+                    if($(this).attr('name') === 'menu_id' && $(this).val() === "0") {
+                        $(this).focus();
+                        pass = false;
+                        return pass;
+                    }
                     params[$(this).attr('name')] = $(this).val();
                 }
             });
@@ -215,6 +253,7 @@ KM.addMod(function() {
             params.content = self.editor.html();
 
             if(pass) {
+
                 fn.postData(false, params, function() {
                     $ul.find('.closem').click();
                 }, this);
@@ -226,7 +265,7 @@ KM.addMod(function() {
             e.preventDefault();            
             var value = $('input.search').val();
             if(value) {
-                fn.loadData(false, {title: value});
+                fn.loadData(false, {title: value, all: 1});
             } else {
                 fn.loadData();
             }
@@ -234,7 +273,9 @@ KM.addMod(function() {
 
         $('.addm').click(function(e) {
             e.preventDefault();
+
             fn.chechSession(function() {
+
                 var params = {};
 
                 $('.breadcrumb').find('li.active')
@@ -254,6 +295,7 @@ KM.addMod(function() {
                 $ul.find('li.single').show();
                 $ul.find('li.list').hide();
                 fn.showEdit(params);
+
             });
         });
 
@@ -269,7 +311,7 @@ KM.addMod(function() {
 
         $('button.search').click(function() {
             var value = $('input.search').val();
-            fn.loadData(false, {title: value});
+            fn.loadData(false, {title: value, all: 1});
         });
 
         $('input.search').keydown(function(e) {

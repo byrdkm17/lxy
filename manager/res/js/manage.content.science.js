@@ -1,37 +1,25 @@
 KM.addMod(function() {
-    var self = KM.mod('content.news', true);
+    var self = KM.mod('content.science', true);
 
     self.path = location.href.split("/manager/")[0] + '/manager/';
 
     var tpl = {
 
-        news: {
+        science: {
 
              tr: juicer([
                 '<tr>',
                     '<td></td>',
                     '<td>${title}</td>',
+                    '<td><a href="${url}" target="_blank">${url}</a></td>',
                     '<td class="center">${author}</td>',
-                    '<td class="center">$${img_url|science_tr_url}</td>',
-                    '<td class="center">${create_time}</td>',                               
+                    '<td class="center">${create_time}</td>',                                
                     '<td><div class="action center">',                      
                         '<a href="#" rel="tooltip" title="编辑" class="edit">编辑</a>',
                         '<a href="#" rel="tooltip" title="删除" class="delete">删除</a>',
                     '</div></td>',
                 '</tr>'
-            ].join('')),
-
-             _reg: (function() {
-
-                juicer.register('science_tr_url', function(data) {
-                    if(data) {
-                        return '<a href="' + data + '" target="_blank">图片链接</a>';
-                    } else {
-                        return '<span class="disabled">无</span>';
-                    }
-                });
-
-            })()
+            ].join(''))
 
         }
 
@@ -40,7 +28,7 @@ KM.addMod(function() {
     var fn = {
         loadData: function(url, params, callback, region) {
 
-            url = url || self.path + 'json/news.asp';
+            url = url || self.path + 'json/science.asp';
             url += '?_dc=' + +new Date();
             params = params || {};
             callback = callback || fn.render
@@ -54,7 +42,7 @@ KM.addMod(function() {
 
         postData: function(url, params, callback, region) {
 
-            url = url || self.path + 'do/news.asp';
+            url = url || self.path + 'do/science.asp';
             region = region || w;
 
             $.post(url, params, function() {
@@ -82,7 +70,7 @@ KM.addMod(function() {
             $tbody.empty();
 
             $.each(data, function() {
-                $tbody.append(tpl.news.tr.render(this));
+                $tbody.append(tpl.science.tr.render(this));
                 $tbody.find('tr:last').data('source', this);
             });
 
@@ -98,7 +86,11 @@ KM.addMod(function() {
 
         },
 
-        editClick: function() {      
+        editClick: function() {
+
+            var $tr = $(this).closest('tr');
+
+            
 
             var $tr = $(this).closest('tr'),
                 name = ($tr.data('source').name || $tr.data('source').title)  + ' (编辑)';
@@ -118,15 +110,10 @@ KM.addMod(function() {
             $('.breadcrumb').find('li.single').show();
 
             fn.loadData(false, {edit: 1, id: $tr.data('source').id}, function(data) {
-                $.ajax(self.path + 'json/news.asp', {
+                $.ajax(self.path + 'json/science.asp', {
                     data: {content: 1, id: $tr.data('source').id},
                     success: function(content) {
-                        $.ajax(self.path + 'json/news.asp', {
-                            data: {content: 1, id: $tr.data('source').id},
-                            success: function(abstract) {
-                                fn.showEdit(data, content, abstract);
-                            }
-                        });
+                        fn.showEdit(data, content);
                     }
                 });
             });
@@ -153,20 +140,13 @@ KM.addMod(function() {
 
         },
 
-        showEdit: function(data, content, abstract) {
+        showEdit: function(data, content) {
             data = $.isArray(data) ? (data[0] || {}) : (data || {});
 
             var $edit = $('.edit');
 
             $edit.find('#title').val(data.title || '');
-            if(data.img_url) {
-                $edit.find('#set_img').attr('checked', true);
-            } else {
-                $edit.find('#set_img').removeAttr('checked');
-            }                        
-            $edit.find('#img_url').val(data.img_url || '');
-            $edit.find('#abstract').val(abstract || '');
-            self.editor.html(content || '');
+            $edit.find('#url').val(data.url || '');
             $edit.find('#id').val(data.id || null);
 
             $('table').hide();
@@ -179,16 +159,6 @@ KM.addMod(function() {
         var $ul =  $('.breadcrumb');
 
         fn.loadData();
-
-        $('.edit').find('#set_img').click(function(e) {
-            var $edit = $(this).closest('.edit');
-            if($(this).attr('checked')) {
-                $edit.find('.c-g-img').show();
-            } else {
-                $edit.find('.c-g-img').hide();
-                $edit.find('#img_url').val('');
-            }
-        });
 
         $('.closem').click(function(e) {
             e.preventDefault();
@@ -203,16 +173,15 @@ KM.addMod(function() {
                 pass = true;
 
             $edit.find('.submitValue').each(function() {
+
                 if($(this).hasClass('required') && String($(this).val()) === "") {
                     $(this).focus();
                     pass = false;
                     return pass;
-                } else {
+                } else {                    
                     params[$(this).attr('name')] = $(this).val();
                 }
             });
-
-            params.content = self.editor.html();
 
             if(pass) {
                 fn.postData(false, params, function() {
