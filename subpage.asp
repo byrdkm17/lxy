@@ -17,8 +17,8 @@
           <div class="span9 content">
             <!--#include file="handler/query_art.asp"-->
             <%
-              set art = new viewArt
-              call art.viewer(navid,menuid,id)
+                set art = new viewArt
+                call art.viewer(navid,menuid,id)
             %>
           </div>
         </div>
