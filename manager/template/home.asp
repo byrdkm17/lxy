@@ -1,4 +1,4 @@
-<div class="container" style="margin-top: 50px">
+<div class="container ie10Panel" style="margin-top: 50px">
     <form class="well form-horizontal" method="post" action="do.asp?action=login">
         <fieldset>
             <legend>服务器信息</legend>
