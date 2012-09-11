@@ -68,7 +68,7 @@
             </div>
             <ul class="unstyled">
               <%
-                set rs12 = conn.execute("select top 2 id,title ,abstract from news order by create_time")
+                set rs12 = conn.execute("select top 2 id,title ,abstract from news order by create_time desc")
               if not (rs12.eof  and rs12.bof) then 
                 rs12.movefirst
                 do while not rs12.eof
