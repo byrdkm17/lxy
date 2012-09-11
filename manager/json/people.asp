@@ -1,6 +1,6 @@
 <% 
 
-function json_notice()
+function json_people()
 
     id = request("id")
     edit = request("edit")
@@ -11,19 +11,19 @@ function json_notice()
 
         if edit = "" then
             if title = "" then
-                set rs = conn.execute("select * from notice where type = 2 order by create_time desc")
+                set rs = conn.execute("select * from siteinfo where type = 2 order by create_time desc")
             else
-                set rs = conn.execute("select * from notice where type = 2 and title like '%" & title & "%' order by create_time desc")
+                set rs = conn.execute("select * from siteinfo where type = 2 and title like '%" & title & "%' order by create_time desc")
             end if
         else 
-            set rs = conn.execute("select * from notice where id = " & id)
+            set rs = conn.execute("select * from siteinfo where id = " & id)
         end if
 
         response.write json(rs)
 
     else
 
-        set rs = conn.execute("select content from notice where id = " & id)
+        set rs = conn.execute("select content from siteinfo where id = " & id)
         rs.movefirst
         response.write rs.fields("content")
 

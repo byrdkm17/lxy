@@ -25,6 +25,20 @@
                 case "news": response.write "<script src=""res/js/manage/content/news.js""></script>"
                 case else: response.write "<script src=""res/js/manage/content/article.js""></script>"
             end select
+        case "remote": 
+            select case cur:
+                case "source": response.write "<script src=""res/js/manage/remote/source.js""></script>"
+                case "list": response.write "<script src=""res/js/manage/remote/list.js""></script>"
+                case else: response.write "<script src=""res/js/manage/remote/source.js""></script>"
+            end select
+        case "other": 
+            select case cur:
+                case "message": response.write "<script src=""res/js/manage/other/message.js""></script>"
+                case "people": response.write "<script src=""res/js/manage/other/people.js""></script>"
+                case "calendar": response.write "<script src=""res/js/manage/other/calendar.js""></script>"
+                case else: response.write "<script src=""res/js/manage/other/message.js""></script>"
+            end select
+        case "auth": response.write "<script src=""res/js/manage/auth/user.js""></script>"
     end select
     %>
 </div>

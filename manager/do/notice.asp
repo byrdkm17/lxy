@@ -14,7 +14,7 @@ function do_notice()
     else    
 
         if id = "" then
-            sqlstr = "insert into notice (title, author, content, create_time) values " & "('" & title & "', '" & session("username") & "', '" & content & "', '" & now() & "')"
+            sqlstr = "insert into notice (title, author, content, create_time, type) values " & "('" & title & "', '" & session("username") & "', '" & content & "', '" & now() & "', 2)"
         else
             sqlstr = "update notice set title = '" & title & "', content = '" & content & "' where id = " & id
         end if

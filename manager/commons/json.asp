@@ -33,7 +33,7 @@ function json(rs):
                         value = rs.fields(i).value
                     case else:
                         value = """" & rs.fields(i).value & """"
-                        if rs.fields(i).name = "content" or rs.fields(i).name = "abstract" then
+                        if rs.fields(i).name = "content" or rs.fields(i).name = "abstract" or rs.fields(i).name = "pattern" then
                             value = """"""
                         end if
                         

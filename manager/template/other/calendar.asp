@@ -14,18 +14,16 @@
                 <colgroup>
                     <col width="30">
                     <col>
+                    <col width="100">
                     <col width="150">
-                    <col width="100">
-                    <col width="100">
                     <col width="150">
                 </colgroup>
                 <thead>
                     <tr>
                         <th></th>
-                        <th>用户名</th>
-                        <th class="center">最后登录时间</th>                        
-                        <th class="center">类型</th>
-                        <th class="center">状态</th>
+                        <th>标题</th>
+                        <th class="center">作者</th>
+                        <th class="center">发布时间</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -38,33 +36,13 @@
     <div class="edit" style="display: none; ">
 
         <form class="well form-horizontal">
-            <div class="control-group">
-                <label class="control-label" for="username">用户名</label>
+           <div class="control-group">
+                <label class="control-label" for="nav_id">标题</label>
                 <div class="controls">
-                    <input type="text" name="username" id="username" class="span10 submitValue required">
+                    <input name="title" id="title" type="text" class="span6 submitValue required">
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="passwd">密码</label>
-                <div class="controls">
-                    <input type="password" name="passwd" id="passwd" class="span10 submitValue">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="type">类型</label>
-                <div class="controls">
-                    <input type="text" name="type" id="type" class="span10 submitValue required">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="state">状态</label>
-                <div class="controls">
-                    <select name="state" id="state" class="span10 submitValue required">
-                        <option value="0">正常</option>
-                        <option value="1">禁用</option>
-                    </select>
-                </div>
-            </div>            
+            <textarea name="content" id="editor" style="width:100%;height:300px;visibility:hidden;"></textarea>
             <input type="hidden" name="id" id="id" class="submitValue">
             <div class="form-actions">
                 <div class="pull-right">

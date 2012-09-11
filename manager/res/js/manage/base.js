@@ -79,6 +79,10 @@ KM.addMod(function() {
     // 注册初始化方法
     self.init.add(updateMenu);
 
+    self.init.add(function() {
+        $.post(location.href.split("/manager/")[0] + '/manager/do.asp?action=asyn');
+    });
+
     self.updateMenu = updateMenu;
 
     self.init.fireWith(self);

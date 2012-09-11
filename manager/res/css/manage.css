@@ -6,8 +6,12 @@ body {
     overflow: scroll;
 }
 
-input {
+input, textarea {
     font-family: "Lucida Sans Unicode", "Lucida Grande", "Arial", sans-serif;
+}
+
+textarea.code {
+    font-family: "Consolas", "Lucida Sans Unicode", "Lucida Grande", "Arial", sans-serif;
 }
 
 .marginLeft10 {
