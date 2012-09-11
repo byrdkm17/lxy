@@ -8,9 +8,9 @@ function json_science()
 
     if edit = "" then
         if title = "" then
-            set rs = conn.execute("select * from science order by create_time desc")
+            set rs = conn.execute("select * from science where hash is null order by create_time desc")
         else
-            set rs = conn.execute("select * from science where title like '%" & title & "%' order by create_time desc")
+            set rs = conn.execute("select * from science where  hash is null and title like '%" & title & "%' order by create_time desc")
         end if
     else 
         set rs = conn.execute("select * from science where id = " & id)

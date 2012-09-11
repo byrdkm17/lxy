@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="auto">最小抓取间隔 (分)</label>
+                <label class="control-label" for="auto">自动抓取</label>
                 <div class="controls">
                     <select name="auto" id="auto" class="span10 submitValue required">
                         <option value="0">关闭</option>

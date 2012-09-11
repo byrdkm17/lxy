@@ -193,7 +193,7 @@ KM.addMod(function() {
                 });
                 $edit.find('#nav_id').val(nav_id);
             }, this, true);
-        },
+        }
     }
 
     self.init.add(function() {      

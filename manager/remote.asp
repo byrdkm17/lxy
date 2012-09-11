@@ -73,8 +73,7 @@ function save(html, brs)
         set Matches = regEx.Execute(html)        
 
         for each Match in Matches
-
-            title = replace(trim(Match.SubMatches(2)), "&nbsp;", "")
+            title = replace(replace(trim(Match.SubMatches(2)), "&nbsp;", ""), chr(13), "")
             url = Match.SubMatches(1)
             ctime = Match.SubMatches(3)
 

@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="page-header">
-        <h1>其他</h1>
+        <h1>数据抓取</h1>
     </div>
     <div>
         <ul class="nav nav-tabs">

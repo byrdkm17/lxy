@@ -35,7 +35,7 @@ function json(rs):
                     case "Double":
                         value = rs.fields(i).value
                     case else:
-                        value = replace(replace(trim("""" & rs.fields(i).value & """"), "&nbsp;", ""), chr(13), "")
+                        value = """" & rs.fields(i).value & """"
                         if rs.fields(i).name = "content" or rs.fields(i).name = "abstract" or rs.fields(i).name = "pattern" then
                             value = """"""
                         end if

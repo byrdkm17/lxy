@@ -11,18 +11,12 @@ function json_sub()
         select case subtype:
             case 1:
                 set rs = conn.execute("select menu_name as name, sub as type, * from menu where nav_id = " & id & " and parent_id = 0 order by id")
-
             case 2:
-                set rs = conn.execute("select menu_name as name, sub as type, * from menu where parent_id = " & id & " order by id")
-                
+                set rs = conn.execute("select menu_name as name, sub as type, * from menu where parent_id = " & id & " order by id")                
             case 3:
                 set rs = conn.execute("select menu_name as name, sub as type, * from menu where nav_id = " & id & " order by id")
-
-            ' 查找指定导航下类型为文章列表的菜单
             case 4:
                 set rs = conn.execute("select menu_name as name, sub as type, * from menu where sub = 0 and nav_id = " & id & " order by id")
-
-            ' 查找指定导航下类型为菜单列表的菜单
             case 5:
                 set rs = conn.execute("select menu_name as name, sub as type, * from menu where sub = 1 and nav_id = " & id & " order by id")
             case else:

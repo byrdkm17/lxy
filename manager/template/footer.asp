@@ -1,6 +1,7 @@
 ﻿<div class="container footer">
     <ul class="pull-right">
         <li class="disabled">推荐使用 <a href="http://chrome.google.com" target="_blank">Chrome</a> 或 <a href="http://firefox.com.cn/" target="_blank">Firefox</a> 浏览器, 以获得更好的体验</li>
+        <li class="static"><a href="mailto:byrdkm17@gmail.com">联系我</a></li>
         <li class="static">2012 &copy; <a href="#">林学院</a></li>
     </ul>
 </div>
