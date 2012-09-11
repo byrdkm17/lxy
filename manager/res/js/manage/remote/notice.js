@@ -33,7 +33,7 @@ KM.addMod(function() {
 
             url = url || self.path + 'json.asp?action=list';
             url += '&_dc=' + +new Date();
-            params = params || {};
+            params = params || {type: 'notice'};
             callback = callback || fn.render
             region = region || window;
 

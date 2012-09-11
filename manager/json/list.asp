@@ -1,24 +1,20 @@
 <% 
 
 function json_list()
+    
+    rtype = request("type")
 
-    set rs = conn.execute("select *, 'notice' as type from notice where hash <> '' order by id")
-
-    noticeJson = json(rs)
-
-    set rs = conn.execute("select *, 'science' as type from science where hash <> '' order by id")
-
-    scienceJson = json(rs)
-
-    result = left(noticeJson, len(noticeJson) - 1)
-
-    if scienceJson <> "[]" then
-        result = result & "," & right(scienceJson, len(scienceJson) - 1)
+    if rtype = "science" then
+        sqlstr = "select *, 'science' as type from science where hash <> '' order by id"
     end if
 
-    result = result & right(scienceJson, len(scienceJson) - 1)
+    if rtype = "notice" then
+        sqlstr = "select *, 'notice' as type from notice where hash <> '' order by id"
+    end if
 
-    response.write result
+    set rs = conn.execute(sqlstr)
+
+    response.write json(rs)
     
     conn.close()    
     set rs = nothing

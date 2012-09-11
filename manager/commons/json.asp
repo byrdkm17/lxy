@@ -1,6 +1,9 @@
 <%
    
 function json(rs):
+
+    on error resume next
+
     dim results, value
 
 
@@ -32,7 +35,7 @@ function json(rs):
                     case "Double":
                         value = rs.fields(i).value
                     case else:
-                        value = """" & rs.fields(i).value & """"
+                        value = replace(replace(trim("""" & rs.fields(i).value & """"), "&nbsp;", ""), chr(13), "")
                         if rs.fields(i).name = "content" or rs.fields(i).name = "abstract" or rs.fields(i).name = "pattern" then
                             value = """"""
                         end if
@@ -58,6 +61,10 @@ function json(rs):
 
     json = results
 
+    if err then
+        response.write "[" & err.number & "] : " & err.description & " (" & err.source & ":" & err.line & ")"
+        err.clear
+    end if
 
 end function
 

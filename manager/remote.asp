@@ -74,7 +74,7 @@ function save(html, brs)
 
         for each Match in Matches
 
-            title = replace(trim(Match.SubMatches(2)), vbCrLf, "")
+            title = replace(trim(Match.SubMatches(2)), "&nbsp;", "")
             url = Match.SubMatches(1)
             ctime = Match.SubMatches(3)
 
@@ -141,7 +141,7 @@ function getAll()
                 utime = "1986-08-13"
             end if
 
-            if datediff("n", utime, now()) > 30 and rs.fields("auto") = 1then
+            if datediff("n", utime, now()) > rs.fields("cycle") and rs.fields("auto") = 1then
 
                 conn.execute("update remote set update_time = '" & now() & "' where id = " & rs.fields("id"))
 

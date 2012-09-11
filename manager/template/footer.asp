@@ -28,7 +28,8 @@
         case "remote": 
             select case cur:
                 case "source": response.write "<script src=""res/js/manage/remote/source.js""></script>"
-                case "list": response.write "<script src=""res/js/manage/remote/list.js""></script>"
+                case "notice": response.write "<script src=""res/js/manage/remote/notice.js""></script>"
+                case "science": response.write "<script src=""res/js/manage/remote/science.js""></script>"
                 case else: response.write "<script src=""res/js/manage/remote/source.js""></script>"
             end select
         case "other": 
