@@ -2,6 +2,8 @@
 
 function do_news()
 
+    on error resume next
+
     id = request("id")
     abstract = request("abstract")
     title = request("title")
@@ -15,24 +17,27 @@ function do_news()
 
     else    
 
-        if id = "" then
-            if img_url = "" then
-                sqlstr = "insert into news (abstract, title, author, content, create_time) values " & "('" & abstract & "', '" & title & "', '" & session("username") & "', '" & content & "', '" & now() & "')"
-            else
-                sqlstr = "insert into news (abstract, title, author, content, create_time, img_url) values " & "('" & abstract & "', '" & title & "', '" & session("username") & "', '" & content & "', '" & now() & "', '" & img_url & "')"
-            end if
+        if img_url = "" then
+            img_url = "null"
         else
-            if img_url = "" then
-                sqlstr = "update news set title = '" & title & "', abstract = '" & abstract & "', content = '" & content & "' where id = " & id
-            else
-                sqlstr = "update news set title = '" & title & "', abstract = '" & abstract & "', content = '" & content & "', img_url = '" & img_url & "' where id = " & id
-            end if
+            img_url = "'" & img_url & "'"
+        end if
+
+        if id = "" then
+            sqlstr = "insert into news (abstract, title, author, content, create_time, img_url) values " & "('" & abstract & "', '" & title & "', '" & session("username") & "', '" & content & "', '" & now() & "', " & img_url & ")"
+        else
+            sqlstr = "update news set title = '" & title & "', abstract = '" & abstract & "', content = '" & content & "', img_url = " & img_url & " where id = " & id
         end if
 
     end if
 
     conn.execute(sqlstr)
     conn.close
+
+    if err then
+        response.write "[" & err.number & "] : " & err.description & " (" & err.source & ":" & err.line & ")"
+        err.clear
+    end if
 
 end function
 

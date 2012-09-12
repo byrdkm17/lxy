@@ -13,7 +13,7 @@ function json_article()
             if edit = "" then
                 set rs = conn.execute("select a.*, m.menu_name from article a left join menu m on m.id = a.menu_id where a.menu_id = " & id & " order by a.create_time desc")
             else 
-                set rs = conn.execute("select a.*, m.menu_name from article a left join menu m on m.id = a.menu_id where a.id = " & id)
+                set rs = conn.execute("select a.*, m.menu_name, m.nav_id from article a left join menu m on m.id = a.menu_id where a.id = " & id)
             end if
             response.write json(rs)
         else

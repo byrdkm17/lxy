@@ -161,10 +161,13 @@ KM.addMod(function() {
             $edit.find('#title').val(data.title || '');
             if(data.img_url) {
                 $edit.find('#set_img').attr('checked', true);
+                $edit.find('.c-g-img').show();
+                $edit.find('#img_url').val(data.img_url);
             } else {
                 $edit.find('#set_img').removeAttr('checked');
+                $edit.find('.c-g-img').hide();
+                $edit.find('#img_url').val('');
             }                        
-            $edit.find('#img_url').val(data.img_url || '');
             $edit.find('#abstract').val(abstract || '');
             self.editor.html(content || '');
             $edit.find('#id').val(data.id || null);

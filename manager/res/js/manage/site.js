@@ -334,12 +334,16 @@ KM.addMod(function() {
                 $edit.find('#title').val(data.title || '');
                 $edit.find('#menu_name').val(data.menu_name || '');
                 $edit.find('#menu_id').val(data.menu_id || 0);
+
                 if(data.img_url) {
                     $edit.find('#set_img').attr('checked', true);
+                    $edit.find('.c-g-img').show();
+                    $edit.find('#img_url').val(data.img_url);
                 } else {
                     $edit.find('#set_img').removeAttr('checked');
-                }
-                $edit.find('#img_url').val(data.img_url || '');
+                    $edit.find('.c-g-img').hide();
+                    $edit.find('#img_url').val('');
+                }                
                 self.editor.html(content || '');
                 $edit.find('#id').val(data.id || null);
 

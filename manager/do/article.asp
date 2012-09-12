@@ -1,6 +1,8 @@
 <%
 
 function do_article()
+    
+    on error resume next
 
     id = request("id")
     menu_id = request("menu_id")
@@ -13,26 +15,31 @@ function do_article()
 
         sqlstr = "delete from article where id = " & id
 
-    else       
+    else
+
+        if img_url = "" then
+            img_url = "null"
+        else
+            img_url = "'" & img_url & "'"
+        end if
 
         if id = "" then
-            if img_url = "" then
-                sqlstr = "insert into article (menu_id, title, author, content, create_time) values " & "(" & menu_id & ", '" & title & "', '" & session("username") & "', '" & content & "', '" & now() & "')"
-            else
-                sqlstr = "insert into article (menu_id, title, author, content, create_time, img_url) values " & "(" & menu_id & ", '" & title & "', '" & session("username") & "', '" & content & "', '" & now() & "', '" & img_url & "')"
-            end if
+            sqlstr = "insert into article (menu_id, title, author, content, create_time, img_url) values " & "(" & menu_id & ", '" & title & "', '" & session("username") & "', '" & content & "', '" & now() & "', " & img_url & ")"
+
         else
-            if img_url = "" then
-                sqlstr = "update article set title = '" & title & "', content = '" & content & "' where id = " & id
-            else
-                sqlstr = "update article set title = '" & title & "', content = '" & content & "', img_url = " & img_url & " where id = " & id
-            end if
+            sqlstr = "update article set title = '" & title & "', content = '" & content & "', img_url = " & img_url & " where id = " & id
+
         end if
 
     end if
 
     conn.execute(sqlstr)
     conn.close
+
+    if err then
+        response.write "[" & err.number & "] : " & err.description & " (" & err.source & ":" & err.line & ")"
+        err.clear
+    end if
 
 end function
 
