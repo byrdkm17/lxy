@@ -5,7 +5,7 @@
           <div id="myCarousel" class="carousel slide span8">
              <div class="carousel-inner">
               <%
-                set rs11 = conn.execute("select top 4 title ,img_url from article where img_url is not null order by create_time desc")
+                set rs11 = conn.execute("select top 4 * from (select top 10  title ,img_url, create_time from news where img_url is not null union select top 10 title, img_url, create_time from article where img_url is not null ) order by create_time desc ")
                 if not (rs11.eof  and rs11.bof) then 
                   rs11.movefirst
               %>
@@ -62,7 +62,7 @@
             <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
           </div>
           <div class="span3 news">
-            <div class="more" style="background: url("../../content/img/news_bg.png") left bottom no-repeat;">
+            <div class="more" style="background: url('content/img/news_bg.png') left bottom no-repeat;">
               <h4><i class="icon-th-list" style="margin-right:5px;"></i>学院要闻</h4>
               <a href="other.asp?type=news"><img src="content/img/more.gif" /></a>
             </div>
