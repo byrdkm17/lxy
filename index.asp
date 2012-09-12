@@ -5,7 +5,7 @@
           <div id="myCarousel" class="carousel slide span8">
              <div class="carousel-inner">
               <%
-                set rs11 = conn.execute("select top 4 title ,img_url from article where img_url is not null order by create_time")
+                set rs11 = conn.execute("select top 4 title ,img_url from article where img_url is not null order by create_time desc")
                 if not (rs11.eof  and rs11.bof) then 
                   rs11.movefirst
               %>
@@ -68,7 +68,7 @@
             </div>
             <ul class="unstyled">
               <%
-                set rs12 = conn.execute("select top 2 id,title ,abstract from news order by create_time desc")
+                set rs12 = conn.execute("select top 2 id,title ,abstract from news order by create_time  desc")
               if not (rs12.eof  and rs12.bof) then 
                 rs12.movefirst
                 do while not rs12.eof
@@ -116,7 +116,7 @@
               <div class="tab-pane active" id="tab11">
                 <ul class="unstyled science">
                   <%
-                  set rs13 = conn.execute("select top 4 title ,url from notice where type=1 order by create_time")
+                  set rs13 = conn.execute("select top 4 title ,url from notice where type=1 order by id, create_time desc")
                   if not (rs13.eof  and rs13.bof) then 
                   rs13.movefirst
                   do while not rs13.eof 
@@ -134,7 +134,7 @@
               <div class="tab-pane" id="tab12">
                 <ul class="unstyled science">
                   <%
-                  set rs13 = conn.execute("select top 4 title ,url from science order by create_time")
+                  set rs13 = conn.execute("select top 4 title ,url from science order by id, create_time desc ")
                   if not (rs13.eof  and rs13.bof) then 
                   rs13.movefirst
                   do while not rs13.eof 
