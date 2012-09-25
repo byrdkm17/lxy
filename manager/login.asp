@@ -4,6 +4,10 @@ dim page, title
 page = "login"
 title = "登录"
 
+  if session("username") <> "" then
+    response.redirect("manage.asp")
+  end if
+
 %>
 
 <!--#include file="template/header.asp" -->

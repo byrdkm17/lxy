@@ -116,7 +116,7 @@
               <div class="tab-pane active" id="tab11">
                 <ul class="unstyled science">
                   <%
-                  set rs13 = conn.execute("select top 4 title ,url from notice where type=1 order by id, create_time desc")
+                  set rs13 = conn.execute("select top 4 title ,url from notice where type=1 order by create_time desc, id")
                   if not (rs13.eof  and rs13.bof) then 
                   rs13.movefirst
                   do while not rs13.eof 
@@ -134,7 +134,7 @@
               <div class="tab-pane" id="tab12">
                 <ul class="unstyled science">
                   <%
-                  set rs13 = conn.execute("select top 4 title ,url from science order by id, create_time desc ")
+                  set rs13 = conn.execute("select top 4 title ,url from science order by create_time desc, id")
                   if not (rs13.eof  and rs13.bof) then 
                   rs13.movefirst
                   do while not rs13.eof 

@@ -3,25 +3,26 @@
         <fieldset>
             <legend>服务器信息</legend>
             <div class="control-group">
-                <label class="control-label">HTTP VERSION</label>
+                <label class="control-label"><b>协议/版本</b></label>
                 <div class="controls" style="line-height: 28px;">
                     <% response.write Request.ServerVariables("Server_Protocol") %>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">SERVICE IP</label>
+                <label class="control-label"><b>访问地址</b></label>
                 <div class="controls" style="line-height: 28px;">
-                    <% response.write Request.ServerVariables("Server_Name") %>
+                    <% url = Request.ServerVariables("Server_Name") %>
+                    <a href="http://<%=url %>"><%=url %></a>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">SERVER PATH</label>
+                <label class="control-label"><b>脚本路径</b></label>
                 <div class="controls" style="line-height: 28px;">
-                    <% response.write Request.ServerVariables("Path_Translated") %>
+                    <% response.write Request.ServerVariables("Path_Translated") %>                    
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">SERVCICE VERSION</label>
+                <label class="control-label"><b>服务器版本</b></label>
                 <div class="controls" style="line-height: 28px;">
                     <% response.write Request.ServerVariables("SERVER_SOFTWARE") %>
                 </div>

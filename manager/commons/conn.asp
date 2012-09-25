@@ -6,7 +6,7 @@ Session.CodePage = 65001
 On Error Resume Next
 
 Dim dbPath, connStr
-dbPath = request.servervariables("Appl_Physical_Path") & "db\lxy.mdb"
+dbPath = server.MapPath("../") & "/db/lxy.mdb"
 connStr = "Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" & dbPath & ";Jet OLEDB:Database Password=lydxlxy@2012"
 
 Set conn = Server.CreateObject("ADODB.Connection")
