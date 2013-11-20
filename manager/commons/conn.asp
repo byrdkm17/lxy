@@ -1,17 +1,18 @@
 <%
-
-CodePage = "65001"
-Response.Charset = "utf-8"
+codepage="65001"
+Response.Charset="utf-8"
 Session.CodePage = 65001
+
 On Error Resume Next
 
-Dim dbPath, connStr
-dbPath = server.MapPath("../") & "/db/lxy.mdb"
-connStr = "Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" & dbPath & ";Jet OLEDB:Database Password=lydxlxy@2012"
+set conn=Server.CreateObject("ADODB.Connection")
 
-Set conn = Server.CreateObject("ADODB.Connection")
-
-conn.Open connStr
+with conn
+    .Provider = "Microsoft.Jet.OLEDB.4.0"
+    .Properties("data source") = server.MapPath("../")&"/db/lxy.mdb"
+    .Properties("Jet OLEDB:database password") = "lydxlxy@2012"
+    .Open
+End with
 
 If Err Then
 

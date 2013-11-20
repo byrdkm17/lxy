@@ -10,7 +10,6 @@ function do_login():
   set rs= conn.execute("select * from users where username = '" & username & "' and passwd = '" & md5(passwd) & "'")
   
   if rs.eof and rs.bof then
-
     session("error_username") = username
     response.redirect("login.asp")
 

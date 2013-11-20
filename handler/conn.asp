@@ -4,18 +4,21 @@ Response.Charset="utf-8"
 Session.CodePage = 65001
 
 On Error Resume Next
-dim filepath
+
 set conn=Server.CreateObject("ADODB.Connection")
-filepath =server.MapPath("./")&"/db/lxy.mdb"
-connstr = "Provider=Microsoft.Jet.OLEDB.4.0; Data Source="& filepath &";Jet OLEDB:Database Password=lydxlxy@2012" 
-conn.Open connstr
 
+with conn
+	.Provider = "Microsoft.Jet.OLEDB.4.0"
+	.Properties("data source") = server.MapPath("/") & "/db/lxy.mdb"
+	.Properties("Jet OLEDB:database password") = "lydxlxy@2012"
+	.Open
+End with
 
-If Err Then
-	err.Clear
+If Err Then	
 	Set Conn = Nothing
-	Response.Write "database can't access!"
+	Response.Write "database can't access! (" + Err.Source + " : " + Err.description + ")"
 	Response.End
+	Err.Clear
 End If
 	On Error GoTo 0
 

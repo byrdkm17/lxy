@@ -1,7 +1,11 @@
 <!--#include file="commons/md5.asp" -->
-<!--#include file="commons/conn.asp" -->
+<!--#include virtual="/handler/conn.asp" -->
 
 <%  
+
+    CodePage = "65001"
+    Response.Charset = "utf-8"
+    Session.CodePage = 65001
 
   dim action
   action = request("action")
