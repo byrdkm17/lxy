@@ -59,12 +59,12 @@ function save(html, brs)
         regEx.Global = true
 
         urls = split(brs.fields("url"), "/")
-        baseUrl = urls(0) & "//" & urls(1) & "/"
 
-        urls = split(brs.fields("url"), "/")
+        baseUrl = urls(0) & "//" & urls(2)
+
         l = UBound(urls)
-        i = 2
-        fullUrl = urls(0) & "//"
+        i = 3
+        fullUrl = baseUrl & "/"
         do while i < l
             fullUrl = fullUrl & urls(i) & "/"
             i = i + 1
@@ -77,7 +77,7 @@ function save(html, brs)
             url = Match.SubMatches(1)
             ctime = Match.SubMatches(3)
 
-            if split(url, "/")(0) = "" then
+            if left(url,1) = "/" then
                 url = baseUrl & url
             else
                 url = fullUrl & url
@@ -86,8 +86,9 @@ function save(html, brs)
             hash = md5(title & url & ctime)
 
             if brs.fields("type") = "notice" then
+                conn.execute("delete from notice where url like 'http:////%'")
 
-                set rs = conn.execute("select * from notice where hash = '" & hash & "'")
+                set rs = conn.execute("select * from notice where hash = '" & hash & "'")                
 
                 if rs.bof and rs.eof then
                     conn.execute("insert into notice (title, url, create_time, type, hash) values " & "('" & title & "', '" & url & "', '" & ctime & "', 1, '" & hash & "')")
@@ -96,6 +97,7 @@ function save(html, brs)
             end if
 
             if brs.fields("type") = "science" then
+                conn.execute("delete from science where url like 'http:////%'")
 
                 set rs = conn.execute("select * from science where hash = '" & hash & "'")
 
