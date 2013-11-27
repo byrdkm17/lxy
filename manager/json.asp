@@ -1,4 +1,4 @@
-<!--#include virtual="/handler/conn.asp" -->
+<!--#include file="../handler/conn.asp" -->
 <!--#include file="commons/json.asp" -->
 <%  
 

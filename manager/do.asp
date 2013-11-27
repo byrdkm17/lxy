@@ -1,5 +1,5 @@
 <!--#include file="commons/md5.asp" -->
-<!--#include virtual="/handler/conn.asp" -->
+<!--#include file="../handler/conn.asp" -->
 
 <%  
 

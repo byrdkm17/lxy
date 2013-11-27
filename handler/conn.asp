@@ -7,9 +7,30 @@ On Error Resume Next
 
 set conn=Server.CreateObject("ADODB.Connection")
 
+dim fso
+set fso = server.createObject("Scripting.FileSystemObject")
+
+path = request.servervariables("script_name")
+
+paths = split(path, "/")
+
+full="/"
+
+dbname = "db/lxy.mdb"
+
+for i = 0 to ubound(paths) - 1
+    full = full + paths(i)
+    if not right(full, 1) = "/" then
+        full = full + "/"
+    end if
+    if fso.fileexists(server.MapPath(full + dbname)) then
+        dbpath = server.MapPath(full + dbname)
+    end if
+next
+
 with conn
 	.Provider = "Microsoft.Jet.OLEDB.4.0"
-	.Properties("data source") = server.MapPath("/") & "/db/lxy.mdb"
+	.Properties("data source") = dbpath
 	.Properties("Jet OLEDB:database password") = "lydxlxy@2012"
 	.Open
 End with
